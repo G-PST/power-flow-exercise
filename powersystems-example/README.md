@@ -7,7 +7,7 @@
 
   ```
   git clone https://github.com/G-PST/power-flow-exercise
-  cd PowerSystemsExample
+  cd power-flow-exercise/PowerSystemsExample
   julia --project -e "using Pkg; Pkg.instantiate()"
   julia --project
   ```
