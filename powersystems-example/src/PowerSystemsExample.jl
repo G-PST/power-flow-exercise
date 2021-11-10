@@ -27,6 +27,7 @@ function output(results)
     mkpath(joinpath(ROOT, "results"))
     CSV.write(joinpath(ROOT, "results/flow.csv"), results["flow_results"])
     CSV.write(joinpath(ROOT, "results/bus.csv"), results["bus_results"])
+    nothing
 end
 
 function load_solve_output(; disable_logging = true)
