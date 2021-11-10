@@ -1,9 +1,9 @@
 using CSV
 using DataFrames
 
-const BUS_DATA = readlines("bus-data.out")
+const BUS_DATA = readlines(joinpath(@__DIR__, "bus-data.out"))
 
-const BRANCH_DATA = readlines("branch-data.out")
+const BRANCH_DATA = readlines(joinpath(@__DIR__, "branch-data.out"))
 
 function parse_bus()
     data = BUS_DATA
@@ -79,8 +79,11 @@ function parse_branch()
     ], [:branch_n, :from_bus_inj_p, :from_bus_inj_q, :to_bus_inj_p, :to_bus_inj_q, :loss_p , :loss_q])
 end
 
-function output()
-    CSV.write("results/bus.csv", parse_bus())
-    CSV.write("results/flow.csv", parse_branch())
-    nothing
+function main()
+    mkpath(joinpath(@__DIR__, "results"))
+    CSV.write(joinpath(@__DIR__, "results/bus.csv"), parse_bus())
+    CSV.write(joinpath(@__DIR__, "results/flow.csv"), parse_branch())
+    println("Output written to ", joinpath(@__DIR__, "results/"))
 end
+
+main()
