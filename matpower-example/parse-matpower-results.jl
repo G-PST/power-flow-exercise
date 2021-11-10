@@ -18,10 +18,11 @@ function parse_bus()
     q_gen_arr = Union{Float64, Missing}[]
     p_load_arr = Union{Float64, Missing}[]
     q_load_arr = Union{Float64, Missing}[]
-    λ_p_arr = Union{Float64, Missing}[]
-    λ_q_arr = Union{Float64, Missing}[]
+    # λ_p_arr = Union{Float64, Missing}[]
+    # λ_q_arr = Union{Float64, Missing}[]
     for (i, line) in enumerate(data)
-        bus_n, v_mag, v_ang, p_gen, q_gen, p_load, q_load, λ_p, λ_q = map(x -> x === nothing ? missing : x, tryparse.(Float64, split(line)))
+        bus_n, v_mag, v_ang, p_gen, q_gen, p_load, q_load = map(x -> x === nothing ? missing : x, tryparse.(Float64, split(line)))
+        # bus_n, v_mag, v_ang, p_gen, q_gen, p_load, q_load, λ_p, λ_q = map(x -> x === nothing ? missing : x, tryparse.(Float64, split(line)))
         push!(bus_n_arr, Int(bus_n))
         push!(v_mag_arr, v_mag)
         push!(v_ang_arr, v_ang === missing ? 0 : v_ang)
@@ -29,8 +30,8 @@ function parse_bus()
         push!(q_gen_arr, q_gen)
         push!(p_load_arr, p_load)
         push!(q_load_arr, q_load)
-        push!(λ_p_arr, λ_p)
-        push!(λ_q_arr, λ_q)
+        # push!(λ_p_arr, λ_p)
+        # push!(λ_q_arr, λ_q)
     end
     DataFrame([
         bus_n_arr,
@@ -40,9 +41,9 @@ function parse_bus()
         q_gen_arr,
         p_load_arr,
         q_load_arr,
-        λ_p_arr,
-        λ_q_arr,
-    ], [:bus_n, :v_mag, :v_ang, :p_gen, :q_gen, :p_load , :q_load, :λ_p, :λ_q])
+        # λ_p_arr,
+        # λ_q_arr,
+    ], [:bus_n, :v_mag, :v_ang, :p_gen, :q_gen, :p_load , :q_load])
 end
 
 function parse_branch()
