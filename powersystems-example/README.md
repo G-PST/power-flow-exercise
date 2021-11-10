@@ -12,7 +12,7 @@
   julia --project
   ```
 
-### Results
+### Performance benchmarks
 
 Benchmarks for loading the system, solving the model, and writing the results:
 
@@ -85,4 +85,74 @@ BenchmarkTools.Trial: 305 samples with 1 evaluation.
   769 μs        Histogram: log(frequency) by time      11.5 ms <
 
  Memory estimate: 8.16 MiB, allocs estimate: 4785.
+```
+
+### Validation
+
+```julia
+julia> compare_v_gen_load()
+std(powersystems.V - matpower.V) = 1.0846725152604795
+std(powersystems.gen - matpower.gen) = 11.963799430340854
+std(powersystems.load - matpower.load) = 0.21226371552333712
+
+std(abs.(powersystems.V - matpower.V)) = 0.6501915632257282
+std(abs.(powersystems.gen - matpower.gen)) = 10.89340864013202
+std(abs.(powersystems.load - matpower.load)) = 0.2122637155233371
+
+    ┌                                        ┐
+     ╷         ┌─────────┬───┐  ╷
+     ├─────────┤         │   ├──┤
+     ╵         └─────────┴───┘  ╵
+    └                                        ┘
+     0                 1.5                  3
+                      Voltage
+    ┌                                        ┐
+     ┬─┐                              ╷
+     │ ├──────────────────────────────┤
+     ┴─┘                              ╵
+    └                                        ┘
+     0                 30                  60
+                    Generation
+    ┌                                        ┐
+     ┐                   ╷
+     ├───────────────────┤
+     ┘                   ╵
+    └                                        ┘
+     0                  1                   2
+                       Load
+```
+
+```julia
+julia> compare_from_to_loss()
+propertynames(powersystems) = [:line_name, :bus_from, :bus_to, :P_from_to, :Q_from_to, :P_to_from, :Q_to_from, :P_losses, :Q_losses]
+propertynames(matpower) = [:branch_n, :from_bus_inj_p, :from_bus_inj_q, :to_bus_inj_p, :to_bus_inj_q, :loss_p, :loss_q]
+std(powersystems.from - matpower.from) = 167.69767501921993
+std(powersystems.to - matpower.to) = 215.32787080252334
+std(powersystems.loss - matpower.loss) = 112.16819358651611
+
+std(abs.(powersystems.from - matpower.from)) = 145.98373012164475
+std(abs.(powersystems.to - matpower.to)) = 156.48583073998023
+std(abs.(powersystems.loss - matpower.loss)) = 78.83015730009632
+
+    ┌                                        ┐
+     ╷        ┌──────┬────┐            ╷
+     ├────────┤      │    ├────────────┤
+     ╵        └──────┴────┘            ╵
+    └                                        ┘
+     100               450                800
+                       From
+    ┌                                        ┐
+     ╷   ┌───────┬──────┐                   ╷
+     ├───┤       │      ├───────────────────┤
+     ╵   └───────┴──────┘                   ╵
+    └                                        ┘
+     0                 350                700
+                        To
+    ┌                                        ┐
+     ╷  ┌───────┬─────┐                ╷
+     ├──┤       │     ├────────────────┤
+     ╵  └───────┴─────┘                ╵
+    └                                        ┘
+     0                 200                400
+                       Loss
 ```
