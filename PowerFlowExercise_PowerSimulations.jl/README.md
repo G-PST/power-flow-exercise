@@ -38,7 +38,7 @@ BenchmarkTools.Trial: 57 samples with 1 evaluation.
  Memory estimate: 44.14 MiB, allocs estimate: 813244.
 ```
 
-Benchmarks for **loading the system**:
+**Benchmarks for loading the system**:
 
 ```
 julia> @benchmark load()
@@ -54,7 +54,7 @@ BenchmarkTools.Trial: 71 samples with 1 evaluation.
  Memory estimate: 25.73 MiB, allocs estimate: 644172.
 ```
 
-Benchmarks for **solving the model**:
+**Benchmarks for solving the model**:
 
 ```
 julia> @benchmark solve(system) setup=(system = load())
@@ -70,7 +70,7 @@ BenchmarkTools.Trial: 57 samples with 1 evaluation.
  Memory estimate: 10.25 MiB, allocs estimate: 164222.
 ```
 
-Benchmarks for **writing the results**:
+**Benchmarks for writing the results**:
 
 ```
 julia> @benchmark PowerFlowExercise_PowerSimulations.write(results) setup = (results = solve(system))
