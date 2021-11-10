@@ -25,7 +25,7 @@ julia> @btime load_solve_output()
   81.316 ms (813244 allocations: 44.14 MiB)
 ```
 
-```
+```julia
 julia> @benchmark load_solve_output()
 BenchmarkTools.Trial: 57 samples with 1 evaluation.
  Range (min … max):  81.106 ms … 94.895 ms  ┊ GC (min … max): 0.00% … 11.93%
@@ -41,7 +41,7 @@ BenchmarkTools.Trial: 57 samples with 1 evaluation.
 
 **Benchmarks for loading the system**:
 
-```
+```julia
 julia> @benchmark load()
 BenchmarkTools.Trial: 71 samples with 1 evaluation.
  Range (min … max):  63.689 ms … 84.467 ms  ┊ GC (min … max): 0.00% … 18.04%
@@ -57,7 +57,7 @@ BenchmarkTools.Trial: 71 samples with 1 evaluation.
 
 **Benchmarks for solving the model**:
 
-```
+```julia
 julia> @benchmark solve(system) setup=(system = load())
 BenchmarkTools.Trial: 57 samples with 1 evaluation.
  Range (min … max):  11.921 ms … 31.811 ms  ┊ GC (min … max):  0.00% … 51.55%
@@ -73,7 +73,7 @@ BenchmarkTools.Trial: 57 samples with 1 evaluation.
 
 **Benchmarks for writing the results**:
 
-```
+```julia
 julia> @benchmark output(results) setup = (results = solve(system))
 BenchmarkTools.Trial: 305 samples with 1 evaluation.
  Range (min … max):  768.933 μs … 31.928 ms  ┊ GC (min … max):  0.00% …  0.00%
