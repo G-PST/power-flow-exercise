@@ -8,6 +8,7 @@
   ```
   git clone https://github.com/G-PST/power-flow-exercise
   cd PowerFlowExercise_PowerSimulations
+  julia --project -e "using Pkg; Pkg.instantiate()"
   julia --project
   ```
 
