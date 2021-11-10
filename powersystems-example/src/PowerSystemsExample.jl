@@ -26,6 +26,7 @@ end
 
 function solve(system)
     results = PowerSystems.solve_powerflow(system)
+    results
 end
 
 function output(results)
@@ -54,7 +55,7 @@ function compare_v_gen_load()
     matpower = coalesce.(matpower, 0) # convert missing values to 0
 
     powersystems.V = powersystems.Vm .* exp.(im .* powersystems.θ)
-    matpower.V = matpower.v_mag .* exp.(im .* matpower.v_ang)
+    matpower.V = matpower.v_mag .* exp.(im .* (deg2rad.(matpower.v_ang)))
     powersystems.gen = powersystems.P_gen .+ (im .* powersystems.Q_gen)
     matpower.gen = matpower.p_gen .+ (im .* matpower.q_gen)
     powersystems.load = powersystems.P_load .+ (im .* powersystems.Q_load)
