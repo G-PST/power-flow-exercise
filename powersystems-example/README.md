@@ -1,4 +1,4 @@
-# PowerFlowExercise_PowerSimulations
+# PowerSystemsExample
 
 ### Setup
 
@@ -7,7 +7,7 @@
 
   ```
   git clone https://github.com/G-PST/power-flow-exercise
-  cd PowerFlowExercise_PowerSimulations
+  cd PowerSystemsExample
   julia --project -e "using Pkg; Pkg.instantiate()"
   julia --project
   ```
@@ -17,7 +17,7 @@
 Benchmarks for loading the system, solving the model, and writing the results:
 
 ```julia
-julia> using PowerFlowExercise_PowerSimulations
+julia> using PowerSystemsExample
 
 julia> using BenchmarkTools
 
@@ -42,7 +42,7 @@ BenchmarkTools.Trial: 57 samples with 1 evaluation.
 **Benchmarks for loading the system**:
 
 ```
-julia> @benchmark PowerFlowExercise_PowerSimulations.load()
+julia> @benchmark load()
 BenchmarkTools.Trial: 71 samples with 1 evaluation.
  Range (min … max):  63.689 ms … 84.467 ms  ┊ GC (min … max): 0.00% … 18.04%
  Time  (median):     67.277 ms              ┊ GC (median):    0.00%

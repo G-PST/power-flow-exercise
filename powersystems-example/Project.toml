@@ -1,4 +1,4 @@
-name = "PowerFlowExercise_PowerSimulations"
+name = "PowerSystemsExample"
 uuid = "69fa3c1b-7faf-4a42-ac3b-55200c9feb2d"
 authors = ["Dheepak Krishnamurthy <me@kdheepak.com>"]
 version = "0.1.0"

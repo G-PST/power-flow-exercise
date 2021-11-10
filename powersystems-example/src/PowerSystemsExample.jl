@@ -1,4 +1,4 @@
-module PowerFlowExercise_PowerSimulations
+module PowerSystemsExample
 
 using PowerSimulations
 using PowerSystems
@@ -19,14 +19,14 @@ function load()
     System(RTS_GMLC_MATPOWER_FILENAME)
 end
 
+function solve(system)
+    results = PowerSystems.solve_powerflow(system)
+end
+
 function output(results)
     mkpath(joinpath(ROOT, "results"))
     CSV.write(joinpath(ROOT, "results/flow.csv"), results["flow_results"])
     CSV.write(joinpath(ROOT, "results/bus.csv"), results["bus_results"])
-end
-
-function solve(system)
-    results = PowerSystems.solve_powerflow(system)
 end
 
 function load_solve_output(; disable_logging = true)
