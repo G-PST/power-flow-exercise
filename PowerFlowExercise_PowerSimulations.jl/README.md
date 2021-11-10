@@ -21,12 +21,12 @@ julia> using PowerFlowExercise_PowerSimulations
 
 julia> using BenchmarkTools
 
-julia> @btime load_solve_write()
+julia> @btime load_solve_output()
   81.316 ms (813244 allocations: 44.14 MiB)
 ```
 
 ```
-julia> @benchmark load_solve_write()
+julia> @benchmark load_solve_output()
 BenchmarkTools.Trial: 57 samples with 1 evaluation.
  Range (min … max):  81.106 ms … 94.895 ms  ┊ GC (min … max): 0.00% … 11.93%
  Time  (median):     92.188 ms              ┊ GC (median):    0.00%
@@ -42,7 +42,7 @@ BenchmarkTools.Trial: 57 samples with 1 evaluation.
 **Benchmarks for loading the system**:
 
 ```
-julia> @benchmark load()
+julia> @benchmark PowerFlowExercise_PowerSimulations.load()
 BenchmarkTools.Trial: 71 samples with 1 evaluation.
  Range (min … max):  63.689 ms … 84.467 ms  ┊ GC (min … max): 0.00% … 18.04%
  Time  (median):     67.277 ms              ┊ GC (median):    0.00%
@@ -74,7 +74,7 @@ BenchmarkTools.Trial: 57 samples with 1 evaluation.
 **Benchmarks for writing the results**:
 
 ```
-julia> @benchmark PowerFlowExercise_PowerSimulations.write(results) setup = (results = solve(system))
+julia> @benchmark output(results) setup = (results = solve(system))
 BenchmarkTools.Trial: 305 samples with 1 evaluation.
  Range (min … max):  768.933 μs … 31.928 ms  ┊ GC (min … max):  0.00% …  0.00%
  Time  (median):     890.851 μs              ┊ GC (median):     0.00%
