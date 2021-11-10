@@ -1,0 +1,12 @@
+name = "PowerFlowExercise_PowerSimulations"
+uuid = "69fa3c1b-7faf-4a42-ac3b-55200c9feb2d"
+authors = ["Dheepak Krishnamurthy <me@kdheepak.com>"]
+version = "0.1.0"
+
+[deps]
+BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
+CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
+Logging = "56ddb016-857b-54e1-b83d-db4d58db5568"
+Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
+PowerSimulations = "e690365d-45e2-57bb-ac84-44ba829e73c4"
+PowerSystems = "bcd98974-b02a-5e2f-9ee0-a103f5c450dd"

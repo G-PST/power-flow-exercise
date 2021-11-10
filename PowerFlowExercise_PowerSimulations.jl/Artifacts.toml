@@ -1,0 +1,7 @@
+[matpower]
+git-tree-sha1 = "28156fa6d9d234e73b434e675c78b8b3b58b5ecb"
+lazy = true
+
+    [[matpower.download]]
+    sha256 = "9269ddd426588943044cd84e46c3018bf7e4c75d2beea6b8a376808a7ea1dacf"
+    url = "https://raw.githubusercontent.com/GridMod/RTS-GMLC/v0.2.1/RTS_Data/FormattedData/MATPOWER/RTS_GMLC.m"
