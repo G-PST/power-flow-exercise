@@ -51,7 +51,7 @@ end
 
 function compare_v_gen_load()
     powersystems = CSV.read(joinpath(@__DIR__, "../results/bus.csv"), DataFrame)
-    matpower = CSV.read(joinpath(@__DIR__, "../../matpower-reference/results/bus.csv"), DataFrame)
+    matpower = CSV.read(joinpath(@__DIR__, "../../reference-matpower/results/bus.csv"), DataFrame)
 
     matpower = coalesce.(matpower, 0) # convert missing values to 0
 
@@ -81,7 +81,7 @@ end
 
 function compare_from_to_loss()
     powersystems = CSV.read(joinpath(@__DIR__, "../results/flow.csv"), DataFrame)
-    matpower = CSV.read(joinpath(@__DIR__, "../../matpower-reference/results/flow.csv"), DataFrame)
+    matpower = CSV.read(joinpath(@__DIR__, "../../reference-matpower/results/flow.csv"), DataFrame)
 
     matpower = coalesce.(matpower, 0) # convert missing values to 0
 
