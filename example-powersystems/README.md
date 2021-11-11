@@ -1,4 +1,4 @@
-# PowerSystemsExample
+# example-powersystems
 
 ### Setup
 
