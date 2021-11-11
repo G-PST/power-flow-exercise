@@ -91,22 +91,26 @@ BenchmarkTools.Trial: 305 samples with 1 evaluation.
 
 ```julia
 julia> compare_v_gen_load()
-std(powersystems.V - matpower.V) = 1.0846725152604795
-std(powersystems.gen - matpower.gen) = 11.963799430340854
+std(powersystems.V - matpower.V) = 0.015236205131202447
+std(powersystems.gen - matpower.gen) = 11.97074542784354
 std(powersystems.load - matpower.load) = 0.21226371552333712
 
-std(abs.(powersystems.V - matpower.V)) = 0.6501915632257282
-std(abs.(powersystems.gen - matpower.gen)) = 10.89340864013202
+std(abs.(powersystems.V - matpower.V)) = 0.014277239790601925
+std(abs.(powersystems.gen - matpower.gen)) = 10.899848476857096
 std(abs.(powersystems.load - matpower.load)) = 0.2122637155233371
 
-              ┌                                        ┐
-   [0.0, 0.5) ┤████████████████▊ 14
-   [0.5, 1.0) ┤████████▍ 7
-   [1.0, 1.5) ┤██████████████▍ 12
-   [1.5, 2.0) ┤████████████████████████████████████  30
-   [2.0, 2.5) ┤████████████  10
-              └                                        ┘
-                                Voltage
+                ┌                                        ┐
+   [0.0 , 0.01) ┤████████████████████████████████████  64
+   [0.01, 0.02) ┤██▊ 5
+   [0.02, 0.03) ┤  0
+   [0.03, 0.04) ┤  0
+   [0.04, 0.05) ┤▌ 1
+   [0.05, 0.06) ┤▌ 1
+   [0.06, 0.07) ┤  0
+   [0.07, 0.08) ┤▌ 1
+   [0.08, 0.09) ┤▌ 1
+                └                                        ┘
+                                  Voltage
                 ┌                                        ┐
    [ 0.0, 10.0) ┤████████████████████████████████████  62
    [10.0, 20.0) ┤██▊ 5
@@ -127,16 +131,16 @@ std(abs.(powersystems.load - matpower.load)) = 0.2122637155233371
                                  Load
 
     ┌                                        ┐
-     ╷         ┌─────────┬───┐  ╷
-     ├─────────┤         │   ├──┤
-     ╵         └─────────┴───┘  ╵
+     ┬┐                                 ╷
+     │├─────────────────────────────────┤
+     ┴┘                                 ╵
     └                                        ┘
-     0                 1.5                  3
+     0                0.045              0.09
                       Voltage
     ┌                                        ┐
-     ┬─┐                              ╷
-     │ ├──────────────────────────────┤
-     ┴─┘                              ╵
+     ┬┐                               ╷
+     │├───────────────────────────────┤
+     ┴┘                               ╵
     └                                        ┘
      0                 30                  60
                     Generation
@@ -152,12 +156,12 @@ std(abs.(powersystems.load - matpower.load)) = 0.2122637155233371
 ```julia
 julia> compare_from_to_loss()
 std(powersystems.from - matpower.from) = 167.69767501921993
-std(powersystems.to - matpower.to) = 215.32787080252334
-std(powersystems.loss - matpower.loss) = 112.16819358651611
+std(powersystems.to - matpower.to) = 215.32566483394348
+std(powersystems.loss - matpower.loss) = 112.166680702039
 
 std(abs.(powersystems.from - matpower.from)) = 145.98373012164475
-std(abs.(powersystems.to - matpower.to)) = 156.48583073998023
-std(abs.(powersystems.loss - matpower.loss)) = 78.83015730009632
+std(abs.(powersystems.to - matpower.to)) = 156.4924523692696
+std(abs.(powersystems.loss - matpower.loss)) = 78.84069014278936
 
                   ┌                                        ┐
    [100.0, 200.0) ┤████████████████▍ 15

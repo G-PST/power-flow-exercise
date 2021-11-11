@@ -21,7 +21,8 @@ export compare_from_to_loss
 
 
 function load()
-    System(RTS_GMLC_MATPOWER_FILENAME)
+    system = System(RTS_GMLC_MATPOWER_FILENAME)
+    system
 end
 
 function solve(system)
