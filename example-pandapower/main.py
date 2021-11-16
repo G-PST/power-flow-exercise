@@ -24,6 +24,16 @@ def compare_to_matpower(net):
     merged_results['diff_va_degree'] = merged_results.v_ang - merged_results.va_degree
     logger.info(f"\n{merged_results[['diff_vm_pu', 'diff_va_degree']].describe()}")
 
+    # compare branch results
+    merged_results_line = pd.merge(branch_results, net.res_line, how='inner', left_index=True, right_index=True)
+    merged_results_line['diff_from_p_mw'] = merged_results_line.p_from_mw - merged_results_line.from_bus_inj_p
+    merged_results_line['diff_to_p_mw'] = merged_results_line.p_to_mw - merged_results_line.to_bus_inj_p
+    merged_results_line['diff_from_q_mvar'] = merged_results_line.q_from_mvar - merged_results_line.from_bus_inj_q
+    merged_results_line['diff_to_q_mvar'] = merged_results_line.q_to_mvar - merged_results_line.to_bus_inj_q
+    merged_results_line['diff_loss_p'] = merged_results_line.pl_mw - merged_results_line.loss_p
+    cols = ['diff_from_p_mw', 'diff_to_p_mw', 'diff_from_q_mvar', 'diff_to_q_mvar', 'diff_loss_p']
+    logger.info(f"\n{merged_results_line[cols].describe()}")
+
 
 if __name__ == "__main__":
     logger.info("timing of loading of pandapower net from JSON")
