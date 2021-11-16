@@ -1,8 +1,7 @@
 import pypowsybl as pp
-import pandas as pd
 
 
-def output(network, dir_path):
+def write_output(network, dir_path):
     output_flows(network).to_csv(dir_path + "flow.csv", index=False)
     output_buses(network).to_csv(dir_path + "bus.csv", index=False)
 
@@ -18,15 +17,13 @@ def output_flows(network):
 
 def output_buses(network):
     buses = network.get_buses()[['v_mag', 'v_angle']].round(3)
+    ids = range(len(buses))
     buses['bus'] = buses.index
     extract_bus_id(buses, 'bus', 'bus')
+    buses['ids'] = ids
+    buses.set_index('ids', inplace=True)
     return buses[['bus', 'v_mag', 'v_angle']]
 
 
 def extract_bus_id(df, name_in, name_out):
     df[name_out] = df[name_in].str.extract(r'(\d{3})') + ".0"
-
-
-def compare_from_to(dir_path_result, dir_path_reference):
-    result = pd.read_csv(dir_path_result + "flow.csv")
-    ref = pd.read_csv(dir_path_reference + "flow.csv")
