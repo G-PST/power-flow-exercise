@@ -87,10 +87,10 @@ function output(results, data)
         bus_n_arr,
         v_mag_arr,
         v_ang_arr,
-        p_gen_arr,
-        q_gen_arr,
-        p_load_arr,
-        q_load_arr,
+        p_gen_arr * data["baseMVA"],
+        q_gen_arr * data["baseMVA"],
+        p_load_arr * data["baseMVA"],
+        q_load_arr * data["baseMVA"],
         # λ_p_arr,
         # λ_q_arr,
     ], [:bus_n, :v_mag, :v_ang, :p_gen, :q_gen, :p_load, :q_load])
@@ -100,5 +100,35 @@ function output(results, data)
 end
 
 
+function compare_v_gen_load()
+    powermodels = CSV.read(joinpath(@__DIR__, "../results/bus.csv"), DataFrame)
+    matpower = CSV.read(joinpath(@__DIR__, "../../reference-matpower/results/bus.csv"), DataFrame)
+
+    matpower = coalesce.(matpower, 0) # convert missing values to 0
+    powermodels = coalesce.(powermodels, 0) # convert missing values to 0
+
+    powermodels.V = powermodels.v_mag .* exp.(im .* powermodels.v_ang)
+    matpower.V = matpower.v_mag .* exp.(im .* (deg2rad.(matpower.v_ang)))
+    powermodels.gen = powermodels.p_gen .+ (im .* powermodels.q_gen)
+    matpower.gen = matpower.p_gen .+ (im .* matpower.q_gen)
+    powermodels.load = powermodels.p_load .+ (im .* powermodels.q_load)
+    matpower.load = matpower.p_load .+ (im .* matpower.q_load)
+
+    @show std(powermodels.V - matpower.V)
+    @show std(powermodels.gen - matpower.gen)
+    @show std(powermodels.load - matpower.load)
+    println()
+    @show std(abs.(powermodels.V - matpower.V))
+    @show std(abs.(powermodels.gen - matpower.gen))
+    @show std(abs.(powermodels.load - matpower.load))
+    println()
+    display(histogram(abs.(powermodels.V - matpower.V), xlabel = "Voltage"))
+    display(histogram(abs.(powermodels.gen - matpower.gen), xlabel = "Generation"))
+    display(histogram(abs.(powermodels.load - matpower.load), xlabel = "Load"))
+    println()
+    display(boxplot(abs.(powermodels.V - matpower.V), xlabel = "Voltage"))
+    display(boxplot(abs.(powermodels.gen - matpower.gen), xlabel = "Generation"))
+    display(boxplot(abs.(powermodels.load - matpower.load), xlabel = "Load"))
+end
 
 end # module
