@@ -5,7 +5,7 @@ artifacts_toml = joinpath(dirname(@__DIR__), "Artifacts.toml")
 
 label = "matpower"
 filename = "RTS_GMLC.m"
-url = "https://raw.githubusercontent.com/GridMod/RTS-GMLC/v0.2.1/RTS_Data/FormattedData/MATPOWER/RTS_GMLC.m"
+url = "https://raw.githubusercontent.com/G-PST/power-flow-exercise/951b06f4449f130ae5faa4a9e400c7bb8115989a/reference-matpower/RTS_GMLC.m"
 
 data_hash = artifact_hash(label, artifacts_toml)
 
