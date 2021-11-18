@@ -1,5 +1,11 @@
-function mpc = test
-%TEST
+function mpc = RTS_GMLC
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% RTS-GMLC Test Case %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%% By: Clayton Barrows, Ali Ehlen, Matt O Connell, %%%%%%%%%%%%%%%%
+%%%%%%%%%% Dheepak Krishnamurthy, Brendan McBennett, and Aaron Bloom %%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%% National Renewable Energy Lab, Golden CO %%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 %% MATPOWER Case Format : Version 2
 mpc.version = '2';
@@ -548,6 +554,7 @@ mpc.gencost = [
 ];
 
 %% bus names
+%column_names% name
 mpc.bus_name = {
 	'ABEL';
 	'ADAMS';
@@ -622,4 +629,167 @@ mpc.bus_name = {
 	'COMTE';
 	'CURIE';
 	'CURTISS';
+};
+
+% generator names types and fuels
+%column_names%	name    type    fuel
+mpc.gen_name = {
+	'101_CT_1'	'CT'	'Oil';
+	'101_CT_2'	'CT'	'Oil';
+	'101_STEAM_3'	'STEAM'	'Coal';
+	'101_STEAM_4'	'STEAM'	'Coal';
+	'102_CT_1'	'CT'	'Oil';
+	'102_CT_2'	'CT'	'Oil';
+	'102_STEAM_3'	'STEAM'	'Coal';
+	'102_STEAM_4'	'STEAM'	'Coal';
+	'107_CC_1'	'CC'	'NG';
+	'113_CT_1'	'CT'	'NG';
+	'113_CT_2'	'CT'	'NG';
+	'113_CT_3'	'CT'	'NG';
+	'113_CT_4'	'CT'	'NG';
+	'115_STEAM_1'	'STEAM'	'Oil';
+	'115_STEAM_2'	'STEAM'	'Oil';
+	'115_STEAM_3'	'STEAM'	'Coal';
+	'116_STEAM_1'	'STEAM'	'Coal';
+	'118_CC_1'	'CC'	'NG';
+	'123_STEAM_2'	'STEAM'	'Coal';
+	'123_STEAM_3'	'STEAM'	'Coal';
+	'123_CT_1'	'CT'	'NG';
+	'123_CT_4'	'CT'	'NG';
+	'123_CT_5'	'CT'	'NG';
+	'201_CT_1'	'CT'	'Oil';
+	'201_CT_2'	'CT'	'Oil';
+	'201_STEAM_3'	'STEAM'	'Coal';
+	'202_CT_1'	'CT'	'Oil';
+	'202_CT_2'	'CT'	'Oil';
+	'202_STEAM_3'	'STEAM'	'Coal';
+	'202_STEAM_4'	'STEAM'	'Coal';
+	'207_CT_1'	'CT'	'NG';
+	'207_CT_2'	'CT'	'NG';
+	'213_CC_3'	'CC'	'NG';
+	'213_CT_1'	'CT'	'NG';
+	'213_CT_2'	'CT'	'NG';
+	'215_CT_4'	'CT'	'NG';
+	'215_CT_5'	'CT'	'NG';
+	'216_STEAM_1'	'STEAM'	'Coal';
+	'218_CC_1'	'CC'	'NG';
+	'221_CC_1'	'CC'	'NG';
+	'223_STEAM_1'	'STEAM'	'Coal';
+	'223_STEAM_2'	'STEAM'	'Coal';
+	'223_STEAM_3'	'STEAM'	'Coal';
+	'223_CT_4'	'CT'	'NG';
+	'223_CT_5'	'CT'	'NG';
+	'223_CT_6'	'CT'	'NG';
+	'301_CT_1'	'CT'	'Oil';
+	'301_CT_2'	'CT'	'Oil';
+	'301_CT_3'	'CT'	'NG';
+	'301_CT_4'	'CT'	'NG';
+	'302_CT_1'	'CT'	'Oil';
+	'302_CT_2'	'CT'	'Oil';
+	'302_CT_3'	'CT'	'NG';
+	'302_CT_4'	'CT'	'NG';
+	'307_CT_1'	'CT'	'NG';
+	'307_CT_2'	'CT'	'NG';
+	'313_CC_1'	'CC'	'NG';
+	'315_STEAM_1'	'STEAM'	'Oil';
+	'315_STEAM_2'	'STEAM'	'Oil';
+	'315_STEAM_3'	'STEAM'	'Oil';
+	'315_STEAM_4'	'STEAM'	'Oil';
+	'315_STEAM_5'	'STEAM'	'Oil';
+	'315_CT_6'	'CT'	'NG';
+	'315_CT_7'	'CT'	'NG';
+	'315_CT_8'	'CT'	'NG';
+	'316_STEAM_1'	'STEAM'	'Coal';
+	'318_CC_1'	'CC'	'NG';
+	'321_CC_1'	'CC'	'NG';
+	'322_CT_5'	'CT'	'NG';
+	'322_CT_6'	'CT'	'NG';
+	'323_CC_1'	'CC'	'NG';
+	'323_CC_2'	'CC'	'NG';
+	'114_SYNC_COND_1'	'SYNC_COND'	'Sync_Cond';
+	'121_NUCLEAR_1'	'NUCLEAR'	'Nuclear';
+	'122_HYDRO_1'	'HYDRO'	'Hydro';
+	'122_HYDRO_2'	'HYDRO'	'Hydro';
+	'122_HYDRO_3'	'HYDRO'	'Hydro';
+	'122_HYDRO_4'	'HYDRO'	'Hydro';
+	'122_HYDRO_5'	'HYDRO'	'Hydro';
+	'122_HYDRO_6'	'HYDRO'	'Hydro';
+	'201_HYDRO_4'	'HYDRO'	'Hydro';
+	'214_SYNC_COND_1'	'SYNC_COND'	'Sync_Cond';
+	'215_HYDRO_1'	'HYDRO'	'Hydro';
+	'215_HYDRO_2'	'HYDRO'	'Hydro';
+	'215_HYDRO_3'	'HYDRO'	'Hydro';
+	'222_HYDRO_1'	'HYDRO'	'Hydro';
+	'222_HYDRO_2'	'HYDRO'	'Hydro';
+	'222_HYDRO_3'	'HYDRO'	'Hydro';
+	'222_HYDRO_4'	'HYDRO'	'Hydro';
+	'222_HYDRO_5'	'HYDRO'	'Hydro';
+	'222_HYDRO_6'	'HYDRO'	'Hydro';
+	'314_SYNC_COND_1'	'SYNC_COND'	'Sync_Cond';
+	'322_HYDRO_1'	'HYDRO'	'Hydro';
+	'322_HYDRO_2'	'HYDRO'	'Hydro';
+	'322_HYDRO_3'	'HYDRO'	'Hydro';
+	'322_HYDRO_4'	'HYDRO'	'Hydro';
+	'320_PV_1'	'PV'	'Solar';
+	'314_PV_1'	'PV'	'Solar';
+	'314_PV_2'	'PV'	'Solar';
+	'313_PV_1'	'PV'	'Solar';
+	'314_PV_3'	'PV'	'Solar';
+	'314_PV_4'	'PV'	'Solar';
+	'313_PV_2'	'PV'	'Solar';
+	'310_PV_1'	'PV'	'Solar';
+	'324_PV_1'	'PV'	'Solar';
+	'312_PV_1'	'PV'	'Solar';
+	'310_PV_2'	'PV'	'Solar';
+	'324_PV_2'	'PV'	'Solar';
+	'324_PV_3'	'PV'	'Solar';
+	'113_PV_1'	'PV'	'Solar';
+	'319_PV_1'	'PV'	'Solar';
+	'215_PV_1'	'PV'	'Solar';
+	'102_PV_1'	'PV'	'Solar';
+	'101_PV_1'	'PV'	'Solar';
+	'102_PV_2'	'PV'	'Solar';
+	'104_PV_1'	'PV'	'Solar';
+	'212_CSP_1'	'CSP'	'Solar';
+	'101_PV_2'	'PV'	'Solar';
+	'101_PV_3'	'PV'	'Solar';
+	'101_PV_4'	'PV'	'Solar';
+	'103_PV_1'	'PV'	'Solar';
+	'119_PV_1'	'PV'	'Solar';
+	'308_RTPV_1'	'RTPV'	'Solar';
+	'313_RTPV_1'	'RTPV'	'Solar';
+	'313_RTPV_2'	'RTPV'	'Solar';
+	'313_RTPV_3'	'RTPV'	'Solar';
+	'313_RTPV_4'	'RTPV'	'Solar';
+	'313_RTPV_5'	'RTPV'	'Solar';
+	'313_RTPV_6'	'RTPV'	'Solar';
+	'313_RTPV_7'	'RTPV'	'Solar';
+	'313_RTPV_8'	'RTPV'	'Solar';
+	'313_RTPV_9'	'RTPV'	'Solar';
+	'313_RTPV_10'	'RTPV'	'Solar';
+	'313_RTPV_11'	'RTPV'	'Solar';
+	'313_RTPV_12'	'RTPV'	'Solar';
+	'320_RTPV_1'	'RTPV'	'Solar';
+	'320_RTPV_2'	'RTPV'	'Solar';
+	'320_RTPV_3'	'RTPV'	'Solar';
+	'313_RTPV_13'	'RTPV'	'Solar';
+	'320_RTPV_4'	'RTPV'	'Solar';
+	'320_RTPV_5'	'RTPV'	'Solar';
+	'118_RTPV_1'	'RTPV'	'Solar';
+	'118_RTPV_2'	'RTPV'	'Solar';
+	'118_RTPV_3'	'RTPV'	'Solar';
+	'118_RTPV_4'	'RTPV'	'Solar';
+	'118_RTPV_5'	'RTPV'	'Solar';
+	'118_RTPV_6'	'RTPV'	'Solar';
+	'320_RTPV_6'	'RTPV'	'Solar';
+	'118_RTPV_7'	'RTPV'	'Solar';
+	'118_RTPV_8'	'RTPV'	'Solar';
+	'118_RTPV_9'	'RTPV'	'Solar';
+	'118_RTPV_10'	'RTPV'	'Solar';
+	'213_RTPV_1'	'RTPV'	'Solar';
+	'309_WIND_1'	'WIND'	'Wind';
+	'317_WIND_1'	'WIND'	'Wind';
+	'303_WIND_1'	'WIND'	'Wind';
+	'122_WIND_1'	'WIND'	'Wind';
+	'313_STORAGE_1'	'STORAGE'	'Storage';
 };
