@@ -15,12 +15,12 @@ pip3 install pypowsybl --user
 ```
 
 ## Run the example
-The PowSyBl importer for MATPOWER files make use `.mat` files. The procedure to make the conversion from `.m` files is explained [here](https://www.powsybl.org/pages/documentation/grid/formats/matpower.html).
+The PowSyBl importer for MATPOWER files make use `.mat` files. The procedure to make the conversion from `.m` is explained [here](https://www.powsybl.org/pages/documentation/grid/formats/matpower.html).
 The resulting input file is [resources/RTS_GMLC.mat](resources/RTS_GMLC.mat)
 
-The example is then executed in [script/power-flow-exercice.jpynb](script/power-flow-exercice.jpynb)
+The example is then executed in [power-flow-exercice.ipynb](power-flow-exercice.ipynb)
 
-The script [script/pypowsyblexample](script/pypowsyblexample) contains functions to format the output to enable comparison with [../reference-matpower/bus.csv](../reference-matpower/bus.csv).
+The script [script/pypowsyblexample.py](script/pypowsyblexample.py) contains functions to format the output to enable comparison with [../reference-matpower/results/bus.csv](../reference-matpower/results/bus.csv).
 
 Note that the same function for flows is not yet working as the identification of the branches differ significantly from MATPOWER.
 
