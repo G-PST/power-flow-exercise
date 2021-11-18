@@ -22,7 +22,7 @@ export compare_from_to_loss
 
 function solve()
     data = PowerModels.parse_file(RTS_GMLC_MATPOWER_FILENAME)
-    results = run_ac_pf(data, Ipopt.Optimizer)
+    results = compute_ac_pf(data)
     (results, data)
 end
 
@@ -53,14 +53,16 @@ function output(results, data)
         x = results["solution"]["gen"][string(b)]["pg"]
         b = data["gen"][string(b)]["gen_bus"]
         i = only(findall(x -> x==b, bus_n_arr))
-        p_gen_arr[i] = x
+        p_gen_arr[i] === missing && (p_gen_arr[i] = 0)
+        p_gen_arr[i] += x
     end
 
     map(gen_n_arr) do b
         x = results["solution"]["gen"][string(b)]["qg"]
         b = data["gen"][string(b)]["gen_bus"]
         i = only(findall(x -> x==b, bus_n_arr))
-        q_gen_arr[i] = x
+        q_gen_arr[i] === missing && (q_gen_arr[i] = 0)
+        q_gen_arr[i] += x
     end
 
     load_n_arr = sort(parse.(Int, keys(data["load"])))
@@ -72,16 +74,17 @@ function output(results, data)
         x = data["load"][string(b)]["pd"]
         b = data["load"][string(b)]["load_bus"]
         i = only(findall(x -> x==b, bus_n_arr))
-        p_load_arr[i] = x
+        p_load_arr[i] === missing && (p_load_arr[i] = 0)
+        p_load_arr[i] += x
     end
 
     map(load_n_arr) do b
         x = data["load"][string(b)]["qd"]
         b = data["load"][string(b)]["load_bus"]
         i = only(findall(x -> x==b, bus_n_arr))
-        q_load_arr[i] = x
+        q_load_arr[i] === missing && (q_load_arr[i] = 0)
+        q_load_arr[i] += x
     end
-
 
     df = DataFrame([
         bus_n_arr,
