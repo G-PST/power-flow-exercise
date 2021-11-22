@@ -21,7 +21,7 @@ export compare_from_to_loss
 
 
 function load()
-    system = System(RTS_GMLC_MATPOWER_FILENAME)
+    system = System(joinpath(@__DIR__, "../../reference-matpower/RTS_GMLC.m"))
     system
 end
 

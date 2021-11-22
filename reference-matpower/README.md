@@ -1,7 +1,10 @@
 # MatpowerReference
 
+- [RTS-GMLC matpower data (with dcline removed)](./RTS_GMLC.m)
+
 ### Setup
 
+- Run MATPOWER
 - Install [Julia](https://julialang.org/downloads/)
 - Run the following in a terminal:
 

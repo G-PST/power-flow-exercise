@@ -53,6 +53,9 @@ function parse_branch()
     headers1 = popfirst!(data)
     headers2 = popfirst!(data)
     branch_n_arr = Union{Int64}[]
+    from_bus_index_arr = Union{Float64, Missing}[]
+    to_bus_index_arr = Union{Float64, Missing}[]
+    from_bus_inj_q_arr = Union{Float64, Missing}[]
     from_bus_inj_p_arr = Union{Float64, Missing}[]
     from_bus_inj_q_arr = Union{Float64, Missing}[]
     to_bus_inj_p_arr = Union{Float64, Missing}[]
@@ -60,8 +63,10 @@ function parse_branch()
     loss_p_arr = Union{Float64, Missing}[]
     loss_q_arr = Union{Float64, Missing}[]
     for (i, line) in enumerate(data)
-        branch_n, from_bus_inj_p, from_bus_inj_q, to_bus_inj_p, to_bus_inj_q, loss_p, loss_q, = map(x -> x === nothing ? missing : x, tryparse.(Float64, split(line)))
+        branch_n, from_bus_index, to_bus_index, from_bus_inj_p, from_bus_inj_q, to_bus_inj_p, to_bus_inj_q, loss_p, loss_q, = map(x -> x === nothing ? missing : x, tryparse.(Float64, split(line)))
         push!(branch_n_arr, Int(branch_n))
+        push!(from_bus_index_arr, from_bus_index)
+        push!(to_bus_index_arr, to_bus_index)
         push!(from_bus_inj_p_arr, from_bus_inj_p)
         push!(from_bus_inj_q_arr, from_bus_inj_q)
         push!(to_bus_inj_p_arr, to_bus_inj_p)
@@ -71,13 +76,15 @@ function parse_branch()
     end
     DataFrame([
         branch_n_arr,
+        from_bus_index_arr,
+        to_bus_index_arr,
         from_bus_inj_p_arr,
         from_bus_inj_q_arr,
         to_bus_inj_p_arr,
         to_bus_inj_q_arr,
         loss_p_arr,
         loss_q_arr,
-    ], [:branch_n, :from_bus_inj_p, :from_bus_inj_q, :to_bus_inj_p, :to_bus_inj_q, :loss_p , :loss_q])
+    ], [:branch_n, :from_bus_index, :to_bus_index, :from_bus_inj_p, :from_bus_inj_q, :to_bus_inj_p, :to_bus_inj_q, :loss_p , :loss_q])
 end
 
 function main()

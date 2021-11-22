@@ -1,7 +1,7 @@
 [matpower]
-git-tree-sha1 = "28156fa6d9d234e73b434e675c78b8b3b58b5ecb"
+git-tree-sha1 = "6884197b48ff05bac3f5bb36d29beada45a6513d"
 lazy = true
 
     [[matpower.download]]
-    sha256 = "f276212f083b98a63645b9f33fb878c0b9ab083684a79063a139079adfe9f267"
-    url = "https://raw.githubusercontent.com/GridMod/RTS-GMLC/v0.2.1/RTS_Data/FormattedData/MATPOWER/RTS_GMLC.m"
+    sha256 = "93bc5a3c956f9a10a5e2d471e93bb6afd9f2073f278ff166c7d394b4d7d52c07"
+    url = "https://raw.githubusercontent.com/G-PST/power-flow-exercise/951b06f4449f130ae5faa4a9e400c7bb8115989a/reference-matpower/RTS_GMLC.m"
