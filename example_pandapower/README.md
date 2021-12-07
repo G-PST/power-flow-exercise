@@ -37,6 +37,9 @@ pip install pandapower
 
 To load a pandapower grid model, use the pandapower function `net = pandapower.from_json(filepath)`.
 
+In order to load a grid model from MATPOWER format, use the pandapower converter function `net = pandapower.converter.from_mpc(filepath)`.
+Note that filepath must point to a ".mpc" file (".m" is not supported).
+
 In order to create an element, use one of the pandapower create functions, for example `create_bus`, `create_ext_grid`, `create_gen`:
 
 ```
@@ -75,10 +78,12 @@ The tutorials will be opened in a browser window.
 
 Timing of the file I/O operations is shown in the following table.
 
-|            |  Read        |  Write      |
-|------------|--------------|-------------|
-|  1000 runs |  212.765 s   | 32.147 s    |
-|  per run   |  212.765 ms  | 32.147 ms   |
+|            | Format     |  Read        |  Write      |
+|------------|------------|--------------|-------------|
+|  1000 runs | JSON       |  212.765 s   | 32.147 s    |
+|  per run   | JSON       |  212.765 ms  | 32.147 ms   |
+|  100 runs  | mpc        |  243 s       | 0.63 s      |
+|  per run   | mpc        |  2.43 s      | 6.31 ms     |
 
 ### Performance of load flow calculations
 

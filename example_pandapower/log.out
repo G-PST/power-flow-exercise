@@ -1,0 +1,3 @@
+13:05:10 example_pandapower.main WARNING found shunt in net (not supported by pypsa converter!!!)
+13:05:13 pypsa.io WARNING Warning: Importing from pandapower is still in beta; not all pandapower data is supported.
+Unsupported features include: three-winding transformers, switches, in_service status, shunt impedances and tap positions of transformers.

@@ -3,3 +3,4 @@ __pycache__/
 *$py.class
 /.idea
 /example-pandapower/temp.json
+/example-pandapower/temp.mpc
