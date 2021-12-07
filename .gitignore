@@ -1,2 +1,5 @@
+__pycache__/
+*.py[cod]
+*$py.class
 /.idea
 /example-pandapower/temp.json
