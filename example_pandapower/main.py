@@ -92,11 +92,12 @@ if __name__ == "__main__":
     net = pp.converter.from_mpc(os.path.join("reference-matpower", "RTS_GMLC.mat"))
     # must be clarified why this is necessary, also slope is still undefined so it is not enough to solve the error:
     # net.pwl_cost.points = net.pwl_cost.points.apply(lambda x: list(zip(x[::2], x[1::2])))
+    net.pwl_cost.drop(net.pwl_cost.index, inplace=True)
     pp.runpp(net)
 
     logger.info("timing of saving of pandapower net to JSON")
-    # logger.info(timeit.timeit('pp.to_json(net, "temp.json")', globals=globals(), number=1000))
-    logger.info(timeit.timeit('pp.converter.to_mpc(net, "temp.mpc")', globals=globals(), number=100))
+    # logger.info(timeit.timeit('pp.to_json(net, os.path.join("example_pandapower", "temp.json"))', globals=globals(), number=1000))
+    logger.info(timeit.timeit('pp.converter.to_mpc(net, os.path.join("example_pandapower", "temp.mpc"))', globals=globals(), number=100))
 
     logger.info('running power flow calculation')
     pp.runpp(net, enforce_q_lims=False)
