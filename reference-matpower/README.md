@@ -1,4 +1,4 @@
-# MatpowerReference
+# reference-matpower
 
 - [RTS-GMLC matpower data (with dcline removed)](./RTS_GMLC.m)
 
