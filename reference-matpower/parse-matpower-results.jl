@@ -1,14 +1,24 @@
 using CSV
 using DataFrames
 
-const BUS_DATA = readlines(joinpath(@__DIR__, "bus-data.out"))
-
-const BRANCH_DATA = readlines(joinpath(@__DIR__, "branch-data.out"))
-
-function parse_bus()
-    data = BUS_DATA
+function parse_bus(filename)
+    data = readlines(filename)
     data = map(line -> strip(line), data)
-    data = filter(line -> !(startswith(line, "Total: ") || startswith(line, "=") || startswith(line, "-") || startswith(line, "|")), data)
+    data2 = []
+    PARSE = false
+    for line in data
+        if startswith(line, "|     Bus Data")
+            PARSE = true
+        end
+        if startswith(line, "|     Branch Data")
+            PARSE = false
+        end
+        if PARSE
+            push!(data2, line)
+        end
+    end
+    data = data2
+    data = filter(line -> !(startswith(line, "Total: ") || startswith(line, "=") || startswith(line, "-") || startswith(line, "|") || line == ""), data)
     headers1 = popfirst!(data)
     headers2 = popfirst!(data)
     bus_n_arr = Union{Int64}[]
@@ -46,9 +56,20 @@ function parse_bus()
     ], [:bus_n, :v_mag, :v_ang, :p_gen, :q_gen, :p_load , :q_load])
 end
 
-function parse_branch()
-    data = BRANCH_DATA
+function parse_branch(filename)
+    data = readlines(filename)
     data = map(line -> strip(line), data)
+    data2 = []
+    PARSE = false
+    for line in data
+        if startswith(line, "|     Branch Data")
+            PARSE = true
+        end
+        if PARSE
+            push!(data2, line)
+        end
+    end
+    data = data2
     data = filter(line -> !(startswith(line, "Total: ") || startswith(line, "=") || startswith(line, "-") || startswith(line, "|")), data)
     headers1 = popfirst!(data)
     headers2 = popfirst!(data)
@@ -88,9 +109,10 @@ function parse_branch()
 end
 
 function main()
+    length(ARGS) == 0 && error("Must provide .log file to parse.")
     mkpath(joinpath(@__DIR__, "results"))
-    CSV.write(joinpath(@__DIR__, "results/bus.csv"), parse_bus())
-    CSV.write(joinpath(@__DIR__, "results/flow.csv"), parse_branch())
+    CSV.write(joinpath(@__DIR__, "results/bus.csv"), parse_bus(ARGS[1]))
+    CSV.write(joinpath(@__DIR__, "results/flow.csv"), parse_branch(ARGS[1]))
     println("Output written to ", joinpath(@__DIR__, "results/"))
 end
 
