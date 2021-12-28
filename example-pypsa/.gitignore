@@ -1,0 +1,6 @@
+../.idea
+temp.json
+temp.mpc
+PyPSA
+
+.ipynb_checkpoints/*
