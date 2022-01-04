@@ -1,8 +1,6 @@
 module PowerModelsExample
 
-using PowerSystems
 using PowerModels
-using PowerModelsInterface
 using CSV
 using Pkg.Artifacts
 using Logging
@@ -11,17 +9,22 @@ using Statistics
 using UnicodePlots
 using Ipopt
 
-const RTS_GMLC_MATPOWER_FILENAME = joinpath(artifact"matpower", "RTS_GMLC.m")
+const RTS_GMLC_MATPOWER_FILENAME = joinpath(@__DIR__, "../../reference-matpower/RTS_GMLC.m") #joinpath(artifact"matpower", "RTS_GMLC.m")
+const PEGASE_MATPOWER_FILENAME = joinpath(@__DIR__, "../../reference-matpower/case9241pegase.m")
 const ROOT = dirname(@__DIR__)
 
+export load_solve_output
 export solve
 export output
 export compare_v_gen_load
 export compare_from_to_loss
 
+function load(;fname = RTS_GMLC_MATPOWER_FILENAME)
+    data = PowerModels.parse_file(fname)
+    return data
+end
 
-function solve()
-    data = PowerModels.parse_file(RTS_GMLC_MATPOWER_FILENAME)
+function solve(data)
     results = compute_ac_pf(data)
     (results, data)
 end
@@ -98,10 +101,22 @@ function output(results, data)
         # λ_q_arr,
     ], [:bus_n, :v_mag, :v_ang, :p_gen, :q_gen, :p_load, :q_load])
 
+    mkpath(joinpath(ROOT, "results"))
     CSV.write(joinpath(@__DIR__, "../results/bus.csv"), df)
     nothing
 end
 
+function load_solve_output(; disable_logging = true, fname = RTS_GMLC_MATPOWER_FILENAME)
+    disable_logging && PowerModels.Memento.config!("critical")
+    !disable_logging && println("Loading system...")
+    system = load(;fname = fname)
+    !disable_logging && println("Solve system...")
+    results, data = solve(system)
+    !disable_logging && println("Writing results...")
+    output(results, data)
+    !disable_logging && println("Done!")
+    nothing
+end
 
 function compare_v_gen_load()
     powermodels = CSV.read(joinpath(@__DIR__, "../results/bus.csv"), DataFrame)
@@ -118,8 +133,14 @@ function compare_v_gen_load()
     matpower.load = matpower.p_load .+ (im .* matpower.q_load)
 
     @show std(powermodels.V - matpower.V)
+    @show std(real.(powermodels.V) - real.(matpower.V))
+    @show std(imag.(powermodels.V) - imag.(matpower.V))
     @show std(powermodels.gen - matpower.gen)
+    @show std(real.(powermodels.gen) - real.(matpower.gen))
+    @show std(imag.(powermodels.gen) - imag.(matpower.gen))
     @show std(powermodels.load - matpower.load)
+    @show std(real.(powermodels.load) - real.(matpower.load))
+    @show std(imag.(powermodels.load) - imag.(matpower.load))
     println()
     @show std(abs.(powermodels.V - matpower.V))
     @show std(abs.(powermodels.gen - matpower.gen))

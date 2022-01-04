@@ -1,6 +1,5 @@
 module PowerSystemsExample
 
-using PowerSimulations
 using PowerSystems
 using CSV
 using Pkg.Artifacts
@@ -9,7 +8,8 @@ using DataFrames
 using Statistics
 using UnicodePlots
 
-const RTS_GMLC_MATPOWER_FILENAME = joinpath(artifact"matpower", "RTS_GMLC.m")
+const RTS_GMLC_MATPOWER_FILENAME = joinpath(@__DIR__, "../../reference-matpower/RTS_GMLC.m")
+const PEGASE_MATPOWER_FILENAME = joinpath(@__DIR__, "../../reference-matpower/case9241pegase.m")
 const ROOT = dirname(@__DIR__)
 
 export load_solve_output
@@ -20,8 +20,8 @@ export compare_v_gen_load
 export compare_from_to_loss
 
 
-function load()
-    system = System(joinpath(@__DIR__, "../../reference-matpower/RTS_GMLC.m"))
+function load(;fname = RTS_GMLC_MATPOWER_FILENAME)
+    system = System(fname)
     system
 end
 
@@ -37,10 +37,10 @@ function output(results)
     nothing
 end
 
-function load_solve_output(; disable_logging = true)
+function load_solve_output(; disable_logging = true, fname = RTS_GMLC_MATPOWER_FILENAME)
     disable_logging && configure_logging(console_level = Logging.Error, file_level = Logging.Error)
     !disable_logging && println("Loading system...")
-    system = load()
+    system = load(fname = fname)
     !disable_logging && println("Solve system...")
     results = solve(system)
     !disable_logging && println("Writing results...")
@@ -63,8 +63,14 @@ function compare_v_gen_load()
     matpower.load = matpower.p_load .+ (im .* matpower.q_load)
 
     @show std(powersystems.V - matpower.V)
+    @show std(real.(powersystems.V) - real.(matpower.V))
+    @show std(imag.(powersystems.V) - imag.(matpower.V))
     @show std(powersystems.gen - matpower.gen)
+    @show std(real.(powersystems.gen) - real.(matpower.gen))
+    @show std(imag.(powersystems.gen) - imag.(matpower.gen))
     @show std(powersystems.load - matpower.load)
+    @show std(real.(powersystems.load) - real.(matpower.load))
+    @show std(imag.(powersystems.load) - imag.(matpower.load))
     println()
     @show std(abs.(powersystems.V - matpower.V))
     @show std(abs.(powersystems.gen - matpower.gen))
