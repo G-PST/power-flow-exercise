@@ -8,8 +8,8 @@ using DataFrames
 using Statistics
 using UnicodePlots
 
-const RTS_GMLC_MATPOWER_FILENAME = joinpath(@__DIR__, "../../reference-matpower/RTS_GMLC.m")
-const PEGASE_MATPOWER_FILENAME = joinpath(@__DIR__, "../../reference-matpower/case9241pegase.m")
+const RTS_GMLC_MATPOWER_FILENAME = joinpath(@__DIR__, "../../reference-matpower/RTS_GMLC/RTS_GMLC.m")
+const PEGASE_MATPOWER_FILENAME = joinpath(@__DIR__, "../../reference-matpower/case9241pegase/case9241pegase.m")
 const ROOT = dirname(@__DIR__)
 
 export load_solve_output
@@ -30,10 +30,10 @@ function solve(system)
     results
 end
 
-function output(results)
-    mkpath(joinpath(ROOT, "results"))
-    CSV.write(joinpath(ROOT, "results/flow.csv"), results["flow_results"])
-    CSV.write(joinpath(ROOT, "results/bus.csv"), results["bus_results"])
+function output(results, fname)
+    out_path = mkpath(joinpath(dirname(fname), "results"))
+    CSV.write(joinpath(out_path, "flow.csv"), results["flow_results"])
+    CSV.write(joinpath(out_path, "bus.csv"), results["bus_results"])
     nothing
 end
 
@@ -44,14 +44,14 @@ function load_solve_output(; disable_logging = true, fname = RTS_GMLC_MATPOWER_F
     !disable_logging && println("Solve system...")
     results = solve(system)
     !disable_logging && println("Writing results...")
-    output(results)
+    output(results, fname)
     !disable_logging && println("Done!")
     nothing
 end
 
-function compare_v_gen_load()
+function compare_v_gen_load(;fname = RTS_GMLC_MATPOWER_FILENAME)
     powersystems = CSV.read(joinpath(@__DIR__, "../results/bus.csv"), DataFrame)
-    matpower = CSV.read(joinpath(@__DIR__, "../../reference-matpower/results/bus.csv"), DataFrame)
+    matpower = CSV.read(joinpath(dirname(fname), "results/bus.csv"), DataFrame)
 
     matpower = coalesce.(matpower, 0) # convert missing values to 0
 
@@ -85,9 +85,9 @@ function compare_v_gen_load()
     display(boxplot(abs.(powersystems.load - matpower.load), xlabel = "Load"))
 end
 
-function compare_from_to_loss()
+function compare_from_to_loss(;fname = RTS_GMLC_MATPOWER_FILENAME)
     powersystems = CSV.read(joinpath(@__DIR__, "../results/flow.csv"), DataFrame)
-    matpower = CSV.read(joinpath(@__DIR__, "../../reference-matpower/results/flow.csv"), DataFrame)
+    matpower = CSV.read(joinpath(dirname(fname), "results/flow.csv"), DataFrame)
 
     matpower = coalesce.(matpower, 0) # convert missing values to 0
 

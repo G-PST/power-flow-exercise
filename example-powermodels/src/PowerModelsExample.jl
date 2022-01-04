@@ -9,8 +9,8 @@ using Statistics
 using UnicodePlots
 using Ipopt
 
-const RTS_GMLC_MATPOWER_FILENAME = joinpath(@__DIR__, "../../reference-matpower/RTS_GMLC.m") #joinpath(artifact"matpower", "RTS_GMLC.m")
-const PEGASE_MATPOWER_FILENAME = joinpath(@__DIR__, "../../reference-matpower/case9241pegase.m")
+const RTS_GMLC_MATPOWER_FILENAME = joinpath(@__DIR__, "../../reference-matpower/RTS_GMLC/RTS_GMLC.m") #joinpath(artifact"matpower", "RTS_GMLC.m")
+const PEGASE_MATPOWER_FILENAME = joinpath(@__DIR__, "../../reference-matpower/case9241pegase/case9241pegase.m")
 const ROOT = dirname(@__DIR__)
 
 export load_solve_output
@@ -29,7 +29,7 @@ function solve(data)
     (results, data)
 end
 
-function output(results, data)
+function output(results, data, fname)
     bus_n_arr = sort(parse.(Int, keys(results["solution"]["bus"])))
 
     v_mag_arr = Vector{Union{Missing, Float64}}(missing, length(bus_n_arr))
@@ -101,8 +101,8 @@ function output(results, data)
         # λ_q_arr,
     ], [:bus_n, :v_mag, :v_ang, :p_gen, :q_gen, :p_load, :q_load])
 
-    mkpath(joinpath(ROOT, "results"))
-    CSV.write(joinpath(@__DIR__, "../results/bus.csv"), df)
+    out_path = mkpath(joinpath(dirname(fname), "results"))
+    CSV.write(joinpath(out_path, "bus.csv"), df)
     nothing
 end
 
@@ -113,14 +113,14 @@ function load_solve_output(; disable_logging = true, fname = RTS_GMLC_MATPOWER_F
     !disable_logging && println("Solve system...")
     results, data = solve(system)
     !disable_logging && println("Writing results...")
-    output(results, data)
+    output(results, data, fname)
     !disable_logging && println("Done!")
     nothing
 end
 
-function compare_v_gen_load()
+function compare_v_gen_load(;fname = RTS_GMLC_MATPOWER_FILENAME)
     powermodels = CSV.read(joinpath(@__DIR__, "../results/bus.csv"), DataFrame)
-    matpower = CSV.read(joinpath(@__DIR__, "../../reference-matpower/results/bus.csv"), DataFrame)
+    matpower = CSV.read(joinpath(dirname(fname), "results/bus.csv"), DataFrame)
 
     matpower = coalesce.(matpower, 0) # convert missing values to 0
     powermodels = coalesce.(powermodels, 0) # convert missing values to 0
