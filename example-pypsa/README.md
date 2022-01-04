@@ -4,13 +4,19 @@ We use the `pypsa-test.ipynb` as initial development notebook.
 
 
 TODO's:
-
 - [x] Set up notebook and local PyPSA version for PR's (pandapower importer is in beta and requires changes)
-- [ ] Find out why powerflow is not converging
-- [ ] Where is the timeseries? Now we just have one snapshot. Are we looking beyond one snapshot?
+- [?] Find out why powerflow is not converging
+- [ ] Currently we just have one snapshot. Are we looking beyond one snapshot?
 - [ ] Optional. Rename generators according to carrier
 - [ ] Add carrier such as ["wind"] for wind plants for all assets
-- [ ] Add default cost from pypsa-eur
+
+- [x] Add default cost from pypsa-eur
+- [ ] Optional. Add technical limits for installations
+- [ ] Adjust capital cost of line by defining line length from voltage level and resistance?
+
+TEST TODO's:
+- [x] Name generator carriers to "OCGT"
+- [x] Make all generators, lines extendable
 - [ ] Add constraints
 - [ ] Test .lopf (linear optimal power flow with investment and dispatch optimization)
 - [ ] Perform below described case studies
