@@ -101,7 +101,8 @@ function output(results, data, fname)
         # λ_q_arr,
     ], [:bus_n, :v_mag, :v_ang, :p_gen, :q_gen, :p_load, :q_load])
 
-    out_path = mkpath(joinpath(dirname(fname), "results"))
+    case = last(splitpath(dirname(fname)))
+    out_path = mkpath(joinpath(ROOT, case, "results"))
     CSV.write(joinpath(out_path, "bus.csv"), df)
     nothing
 end
@@ -119,8 +120,9 @@ function load_solve_output(; disable_logging = true, fname = RTS_GMLC_MATPOWER_F
 end
 
 function compare_v_gen_load(;fname = RTS_GMLC_MATPOWER_FILENAME)
-    powermodels = CSV.read(joinpath(@__DIR__, "../results/bus.csv"), DataFrame)
-    matpower = CSV.read(joinpath(dirname(fname), "results/bus.csv"), DataFrame)
+    case = last(splitpath(dirname(fname)))
+    powermodels = CSV.read(joinpath(ROOT, case, "results", "bus.csv"), DataFrame)
+    matpower = CSV.read(joinpath(dirname(fname), "results", "bus.csv"), DataFrame)
 
     matpower = coalesce.(matpower, 0) # convert missing values to 0
     powermodels = coalesce.(powermodels, 0) # convert missing values to 0
