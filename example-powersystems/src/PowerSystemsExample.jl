@@ -31,7 +31,7 @@ function solve(system)
 end
 
 function output(results, fname)
-    out_path = mkpath(joinpath(dirname(fname), "results"))
+    out_path = mkpath(joinpath(ROOT, "results"))
     CSV.write(joinpath(out_path, "flow.csv"), results["flow_results"])
     CSV.write(joinpath(out_path, "bus.csv"), results["bus_results"])
     nothing
@@ -51,6 +51,7 @@ end
 
 function compare_v_gen_load(;fname = RTS_GMLC_MATPOWER_FILENAME)
     powersystems = CSV.read(joinpath(@__DIR__, "../results/bus.csv"), DataFrame)
+    println("reading " * joinpath(dirname(fname), "results/bus.csv"))
     matpower = CSV.read(joinpath(dirname(fname), "results/bus.csv"), DataFrame)
 
     matpower = coalesce.(matpower, 0) # convert missing values to 0
