@@ -1,3 +1,24 @@
+################
+# REQUIREMENTS #
+################
+# To import packages and modules to Jupyter notebook, you need to setup a conda environment. Here we call it `gpst`.
+# ```
+# conda create --name gpst
+# conda install -c conda-forge pypsa pandapower jupyterlab
+# pip install yaml vresutils==0.3.1
+# ```
+# Upgrade to pandapower to develop branch
+# ```
+# pip install git+git://github.com/e2nIEE/pandapower@develop
+# ```
+# To  add the kernel for the jupyter notebook
+# ```
+# pip install ipykernel
+# ipython kernel install --user --name=gpst
+# ```
+
+# Open the jupyter lab notebook by typing `jupyter lab` in the terminal.
+
 
 # %%
 import os
@@ -55,6 +76,10 @@ network = pypsa.Network()
 network.import_from_pandapower_net(net, True, use_pandapower_index=True)
 pypsa_validation(network, net)
 n = network
+
+# EXPORT AS CSV
+path = os.path.join(os.getcwd(), "unsolved_network")
+n.export_to_csv_folder(path)
 
 # Run AC powerflow
 # %%
@@ -151,4 +176,8 @@ logger.info("\n {}".format(n.links.to_string()))
 logger.info("\n {}".format(n.transformers.to_string()))
 logger.info("\n {}".format(n.shunt_impedances.to_string()))
 
-print("More information -> .log.out file")
+print("Summary in log.out file")
+
+# EXPORT AS CSV
+path = os.path.join(os.getcwd(), "solved_network")
+n.export_to_csv_folder(path)
