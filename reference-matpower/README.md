@@ -7,7 +7,7 @@
 - Run MATPOWER
 
   ```bash
-  matlab -nodisplay -nosplash -nodesktop -r "filename='RTS_GMLC.m';script"
+  matlab -nodisplay -nosplash -nodesktop -r "filename='RTS_GMLC/RTS_GMLC.m';script"
   ```
 
 - Install [Julia](https://julialang.org/downloads/)
@@ -17,7 +17,7 @@
   git clone https://github.com/G-PST/power-flow-exercise
   cd reference-matpower
   julia --project -e "using Pkg; Pkg.instantiate()"
-  julia --project parse-matpower-results.jl 'RTS_GMLC.log'
+  julia --project parse-matpower-results.jl 'RTS_GMLC/RTS_GMLC.log'
   ```
 
   The output is generated in the results folder:
