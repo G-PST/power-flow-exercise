@@ -9,8 +9,9 @@ using Statistics
 using UnicodePlots
 using Ipopt
 
-const RTS_GMLC_MATPOWER_FILENAME = joinpath(@__DIR__, "../../reference-matpower/RTS_GMLC/RTS_GMLC.m") #joinpath(artifact"matpower", "RTS_GMLC.m")
-const PEGASE_MATPOWER_FILENAME = joinpath(@__DIR__, "../../reference-matpower/case9241pegase/case9241pegase.m")
+const MATPOWER_DIR = joinpath(dirname(dirname(@__DIR__)), "reference-matpower")
+const RTS_GMLC_MATPOWER_FILENAME = joinpath(MATPOWER_DIR, "RTS_GMLC", "RTS_GMLC.m")
+const PEGASE_MATPOWER_FILENAME = joinpath(MATPOWER_DIR, "case9241pegase", "case9241pegase.m")
 const ROOT = dirname(@__DIR__)
 
 export load_solve_output

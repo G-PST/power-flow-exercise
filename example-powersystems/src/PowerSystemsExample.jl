@@ -8,8 +8,9 @@ using DataFrames
 using Statistics
 using UnicodePlots
 
-const RTS_GMLC_MATPOWER_FILENAME = joinpath(@__DIR__, "../../reference-matpower/RTS_GMLC/RTS_GMLC.m")
-const PEGASE_MATPOWER_FILENAME = joinpath(@__DIR__, "../../reference-matpower/case9241pegase/case9241pegase.m")
+const MATPOWER_DIR = joinpath(dirname(dirname(@__DIR__)), "reference-matpower")
+const RTS_GMLC_MATPOWER_FILENAME = joinpath(MATPOWER_DIR, "RTS_GMLC", "RTS_GMLC.m")
+const PEGASE_MATPOWER_FILENAME = joinpath(MATPOWER_DIR, "case9241pegase", "case9241pegase.m")
 const ROOT = dirname(@__DIR__)
 
 export load_solve_output
@@ -17,6 +18,7 @@ export load
 export solve
 export output
 export compare_v_gen_load
+export compare_v_gen_load_nodal
 export compare_from_to_loss
 
 
@@ -52,9 +54,8 @@ end
 
 function compare_v_gen_load(;fname = RTS_GMLC_MATPOWER_FILENAME)
     case = last(splitpath(dirname(fname)))
-    powersystems = CSV.read(joinpath(ROOT, case, "bus.csv"), DataFrame)
-    println("reading " * joinpath(dirname(fname), "results/bus.csv"))
-    matpower = CSV.read(joinpath(dirname(fname), "results/bus.csv"), DataFrame)
+    powersystems = CSV.read(joinpath(ROOT, case, "results", "bus.csv"), DataFrame)
+    matpower = CSV.read(joinpath(dirname(fname), "results", "bus.csv"), DataFrame)
 
     matpower = coalesce.(matpower, 0) # convert missing values to 0
 
@@ -88,10 +89,50 @@ function compare_v_gen_load(;fname = RTS_GMLC_MATPOWER_FILENAME)
     display(boxplot(abs.(powersystems.load - matpower.load), xlabel = "Load"))
 end
 
+
+function compare_v_gen_load_nodal(;fname = RTS_GMLC_MATPOWER_FILENAME, size = 10)
+    case = last(splitpath(dirname(fname)))
+    powersystems = CSV.read(joinpath(ROOT, case, "results", "bus.csv"), DataFrame)
+    matpower = CSV.read(joinpath(dirname(fname), "results", "bus.csv"), DataFrame)
+
+    matpower = coalesce.(matpower, 0) # convert missing values to 0
+
+    powersystems.V = powersystems.Vm .* exp.(im .* powersystems.θ)
+    matpower.V = matpower.v_mag .* exp.(im .* (deg2rad.(matpower.v_ang)))
+    powersystems.gen = powersystems.P_gen .+ (im .* powersystems.Q_gen)
+    matpower.gen = matpower.p_gen .+ (im .* matpower.q_gen)
+    powersystems.load = powersystems.P_load .+ (im .* powersystems.Q_load)
+    matpower.load = matpower.p_load .+ (im .* matpower.q_load)
+
+    function sort_vec(vec, len)
+        perm = sortperm(vec, rev = true)
+        return DataFrame(:id=> perm[1:len], :diff=>vec[perm[1:len]])
+    end
+
+    @show sort_vec(real.(powersystems.V) - real.(matpower.V), size)
+    @show sort_vec(imag.(powersystems.V) - imag.(matpower.V), size)
+    @show sort_vec(real.(powersystems.gen) - real.(matpower.gen), size)
+    @show sort_vec(imag.(powersystems.gen) - imag.(matpower.gen), size)
+    @show sort_vec(real.(powersystems.load) - real.(matpower.load), size)
+    @show sort_vec(imag.(powersystems.load) - imag.(matpower.load), size)
+    println()
+    @show sort_vec(abs.(powersystems.V - matpower.V), size)
+    @show sort_vec(abs.(powersystems.gen - matpower.gen), size)
+    @show sort_vec(abs.(powersystems.load - matpower.load), size)
+    println()
+    display(histogram(abs.(powersystems.V - matpower.V), xlabel = "Voltage"))
+    display(histogram(abs.(powersystems.gen - matpower.gen), xlabel = "Generation"))
+    display(histogram(abs.(powersystems.load - matpower.load), xlabel = "Load"))
+    println()
+    display(boxplot(abs.(powersystems.V - matpower.V), xlabel = "Voltage"))
+    display(boxplot(abs.(powersystems.gen - matpower.gen), xlabel = "Generation"))
+    display(boxplot(abs.(powersystems.load - matpower.load), xlabel = "Load"))
+end
+
 function compare_from_to_loss(;fname = RTS_GMLC_MATPOWER_FILENAME)
     case = last(splitpath(dirname(fname)))
-    powersystems = CSV.read(joinpath(ROOT, case, "results/flow.csv"), DataFrame)
-    matpower = CSV.read(joinpath(dirname(fname), "results/flow.csv"), DataFrame)
+    powersystems = CSV.read(joinpath(ROOT, case, "results", "flow.csv"), DataFrame)
+    matpower = CSV.read(joinpath(dirname(fname), "results" ,"flow.csv"), DataFrame)
 
     matpower = coalesce.(matpower, 0) # convert missing values to 0
 
@@ -118,5 +159,6 @@ function compare_from_to_loss(;fname = RTS_GMLC_MATPOWER_FILENAME)
     display(boxplot(abs.(powersystems.to - matpower.to), xlabel = "To"))
     display(boxplot(abs.(powersystems.loss - matpower.loss), xlabel = "Loss"))
 end
+
 
 end # module
