@@ -1,5 +1,5 @@
 
-Converged in 0.31 seconds
+Converged in 0.38 seconds
 ================================================================================
 |     System Summary                                                           |
 ================================================================================
@@ -14,7 +14,7 @@ Loads             51     Load                  8550.0            1740.0
   Dispatchable     0       Dispatchable          -0.0 of -0.0      -0.0
 Shunts             3     Shunt (inj)             -0.0            -316.1
 Branches         120     Losses (I^2 * Z)       153.97           1442.60
-Transformers      16     Branch Charging (inj)     -             1780.0
+Transformers      15     Branch Charging (inj)     -             1780.0
 Inter-ties         5     Total Inter-tie Flow   331.2              25.0
 Areas              3
 
