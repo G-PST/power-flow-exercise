@@ -41,12 +41,12 @@ def compare_to_matpower(net):
     logger.info(f"\n{merged_results_line[cols].describe()}")
 
 
-def make_name_to_index(net):
+def check_net_ensure_unique_names(net):
     for elm in net.keys():
         if elm.startswith("_") or not isinstance(net[elm], pd.DataFrame) or len(net[elm]) == 0:
             continue
         # let's keep the bus names from mpc
-        if elm == 'bus':
+        if elm in ['bus', 'gen', 'sgen']:
             continue
         net[elm]['name'] = [f"{elm}_{i}" for i in net[elm].index.values]
         # checking because in_service not supported by pypsa
@@ -61,13 +61,22 @@ def make_name_to_index(net):
             logger.warning("found shunt in net (not supported by pypsa converter!!!)")
 
 
-def load_net_convert_to_pypsa():
+def load_rts_grid():
     # Attention: PyPSA takes name as index!!!!! Must be unique!
-    net = pp.converter.from_mpc(os.path.join("reference-matpower", "RTS_GMLC.mat"))
-    # todo: check if this is correct (dropping not in_service elements from net.sgen
-    net.sgen.drop(net.sgen[~net.sgen.in_service].index, inplace=True)
-    make_name_to_index(net)
+    net = pp.converter.from_mpc(os.path.join("reference-matpower", "RTS_GMLC", "RTS_GMLC.mat"))
+    # make bus name match MATPOWER bus name
+    pp.toolbox.reindex_buses(net, net.bus.name + 1)
+    assign_additional_data(net)
+
+    # switching all sgens on to preserve information
+    # net.sgen.drop(net.sgen[~net.sgen.in_service].index, inplace=True)
+    net.sgen.in_service = True
+    check_net_ensure_unique_names(net)
     pp.runpp(net)
+    return net
+
+
+def convert_to_pypsa(net):
     network = pypsa.Network()
     network.import_from_pandapower_net(net, True)
 
@@ -80,6 +89,16 @@ def load_net_convert_to_pypsa():
     # todo: trafo tap positions are not supported
     # todo: trafo3w are not supported
     return network
+
+
+def assign_additional_data(net):
+    net.bus.name = net._options["bus_name"]
+    gen_lookup = net._options["gen_lookup"]
+    gen_name = net._options["gen_name"]
+    gen_lookup_gen = gen_lookup.query("element_type=='gen'")
+    gen_lookup_sgen = gen_lookup.query("element_type=='sgen'")
+    net.gen.loc[gen_lookup_gen.element.values, ['name', 'type']] = gen_name[gen_lookup_gen.index.values][:, [0, 1]]
+    net.sgen.loc[gen_lookup_sgen.element.values, ['name', 'type']] = gen_name[gen_lookup_sgen.index.values][:, [0, 1]]
 
 
 if __name__ == "__main__":
