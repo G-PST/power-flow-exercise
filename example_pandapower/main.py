@@ -10,8 +10,8 @@ import pandapower.converter
 
 import logging
 
-logging.basicConfig(filename=os.path.join("example_pandapower", "log.out"),
-                    filemode='w',
+logging.basicConfig(#filename=os.path.join("example_pandapower", "log.out"),
+                    #filemode='w',
                     format='%(asctime)s %(name)s %(levelname)s %(message)s',
                     datefmt='%H:%M:%S',
                     level=logging.INFO)
