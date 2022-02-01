@@ -110,10 +110,10 @@ end
 
 function main()
     length(ARGS) == 0 && error("Must provide .log file to parse.")
-    mkpath(joinpath(@__DIR__, "results"))
-    CSV.write(joinpath(@__DIR__, "results/bus.csv"), parse_bus(ARGS[1]))
-    CSV.write(joinpath(@__DIR__, "results/flow.csv"), parse_branch(ARGS[1]))
-    println("Output written to ", joinpath(@__DIR__, "results/"))
+    res_dir = mkpath(joinpath(dirname(ARGS[1]), "results"))
+    CSV.write(joinpath(res_dir, "bus.csv"), parse_bus(ARGS[1]))
+    CSV.write(joinpath(res_dir, "flow.csv"), parse_branch(ARGS[1]))
+    println("Output written to ", res_dir)
 end
 
 main()
