@@ -77,9 +77,11 @@ network.import_from_pandapower_net(net, True, use_pandapower_index=True)
 pypsa_validation(network, net)
 n = network
 
-# EXPORT AS CSV
+# EXPORT AS CSV and netcdf
 path = os.path.join(os.getcwd(), "unsolved_network")
 n.export_to_csv_folder(path)
+path_nc = os.path.join(os.getcwd(), "unsolved_network.nc")
+n.export_to_netcdf(path_nc)
 
 # Run AC powerflow
 # %%
@@ -178,6 +180,8 @@ logger.info("\n {}".format(n.shunt_impedances.to_string()))
 
 print("Summary in log.out file")
 
-# EXPORT AS CSV
+# EXPORT AS CSV and netcdf
 path = os.path.join(os.getcwd(), "solved_network")
 n.export_to_csv_folder(path)
+path_nc = os.path.join(os.getcwd(), "solved_network.nc")
+n.export_to_netcdf(path_nc)
