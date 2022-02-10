@@ -13,6 +13,7 @@ const MATPOWER_DIR = joinpath(dirname(dirname(@__DIR__)), "reference-matpower")
 const RTS_GMLC_MATPOWER_FILENAME = joinpath(MATPOWER_DIR, "RTS_GMLC", "RTS_GMLC.m")
 const PEGASE_MATPOWER_FILENAME = joinpath(MATPOWER_DIR, "case9241pegase", "case9241pegase.m")
 const ROOT = dirname(@__DIR__)
+const SEPARATOR = '─'
 
 export load_solve_output
 export solve
@@ -149,14 +150,19 @@ function compare_v_gen_load(;fname = RTS_GMLC_MATPOWER_FILENAME)
     @show std(abs.(powermodels.V - matpower.V))
     @show std(abs.(powermodels.gen - matpower.gen))
     @show std(abs.(powermodels.load - matpower.load))
-    println()
-    display(histogram(abs.(powermodels.V - matpower.V), xlabel = "Voltage"))
-    display(histogram(abs.(powermodels.gen - matpower.gen), xlabel = "Generation"))
-    display(histogram(abs.(powermodels.load - matpower.load), xlabel = "Load"))
-    println()
-    display(boxplot(abs.(powermodels.V - matpower.V), xlabel = "Voltage"))
-    display(boxplot(abs.(powermodels.gen - matpower.gen), xlabel = "Generation"))
-    display(boxplot(abs.(powermodels.load - matpower.load), xlabel = "Load"))
+    println(repeat(SEPARATOR, displaysize(stdout)[2]))
+    display(histogram(abs.(powermodels.V - matpower.V), title = "Voltage", xlabel = ""))
+    println(repeat(SEPARATOR, displaysize(stdout)[2]))
+    display(histogram(abs.(powermodels.gen - matpower.gen), title = "Generation", xlabel = ""))
+    println(repeat(SEPARATOR, displaysize(stdout)[2]))
+    display(histogram(abs.(powermodels.load - matpower.load), title = "Load", xlabel = ""))
+    println(repeat(SEPARATOR, displaysize(stdout)[2]))
+    display(boxplot(abs.(powermodels.V - matpower.V), title = "Voltage", xlabel = ""))
+    println(repeat(SEPARATOR, displaysize(stdout)[2]))
+    display(boxplot(abs.(powermodels.gen - matpower.gen), title = "Generation", xlabel = ""))
+    println(repeat(SEPARATOR, displaysize(stdout)[2]))
+    display(boxplot(abs.(powermodels.load - matpower.load), title = "Load", xlabel = ""))
+    println(repeat(SEPARATOR, displaysize(stdout)[2]))
 end
 
 end # module
