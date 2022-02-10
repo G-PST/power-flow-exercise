@@ -26,7 +26,8 @@ function load(;fname = RTS_GMLC_MATPOWER_FILENAME)
 end
 
 function solve(data)
-    results = compute_ac_pf(data)
+    #results = run_pf(data, ACPPowerModel, Ipopt.Optimizer) #optimization
+    results = compute_ac_pf(data) #simulation
     (results, data)
 end
 
