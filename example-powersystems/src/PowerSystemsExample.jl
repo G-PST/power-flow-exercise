@@ -105,7 +105,7 @@ function compare_v_gen_load_nodal(;fname = RTS_GMLC_MATPOWER_FILENAME, size = 10
     matpower.load = matpower.p_load .+ (im .* matpower.q_load)
 
     function sort_vec(vec, len)
-        perm = sortperm(vec, rev = true)
+        perm = sortperm(abs.(vec), rev = true)
         return DataFrame(:id=> perm[1:len], :diff=>vec[perm[1:len]])
     end
 
