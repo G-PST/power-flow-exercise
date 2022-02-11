@@ -11,6 +11,6 @@ fclose(fopen(log_file, 'w'));
 res = runpf(mpc, opt, log_file); % runpf in matpower
 result_mat = fullfile(fPath, 'results', sprintf('%s.mat', fName));
 result_m = fullfile(fPath, 'results', sprintf('%s.m', fName));
-savecase(result_mat, mpc);
-savecase(result_m, mpc);
+savecase(result_mat, res);
+savecase(result_m, res);
 exit()
