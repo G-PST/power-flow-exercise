@@ -97,8 +97,8 @@ def assign_additional_data(net):
     gen_name = net._options["gen_name"]
     gen_lookup_gen = gen_lookup.query("element_type=='gen'")
     gen_lookup_sgen = gen_lookup.query("element_type=='sgen'")
-    net.gen.loc[gen_lookup_gen.element.values, ['name', 'type']] = gen_name[gen_lookup_gen.index.values][:, [0, 1]]
-    net.sgen.loc[gen_lookup_sgen.element.values, ['name', 'type']] = gen_name[gen_lookup_sgen.index.values][:, [0, 1]]
+    net.gen.loc[gen_lookup_gen.element.values, ['name', 'type', 'fuel']] = gen_name[gen_lookup_gen.index.values][:, [0, 1, 2]]
+    net.sgen.loc[gen_lookup_sgen.element.values, ['name', 'type', 'fuel']] = gen_name[gen_lookup_sgen.index.values][:, [0, 1, 2]]
 
 
 if __name__ == "__main__":
