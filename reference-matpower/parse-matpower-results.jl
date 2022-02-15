@@ -52,9 +52,10 @@ function parse_branch(filename)
     return branch_df
 end
 
+# julia --project parse-matpower-results.jl "RTS_GMLC/results/RTS_GMLC.mat"
 function main()
     length(ARGS) == 0 && error("Must provide .mat file to parse.")
-    res_dir = mkpath(joinpath(dirname(ARGS[1]), "results"))
+    res_dir = dirname(ARGS[1])
     CSV.write(joinpath(res_dir, "bus.csv"), parse_bus(ARGS[1]))
     CSV.write(joinpath(res_dir, "flow.csv"), parse_branch(ARGS[1]))
     println("Output written to ", res_dir)
