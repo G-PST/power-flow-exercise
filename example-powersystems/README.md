@@ -21,54 +21,56 @@ julia> using PowerSystemsExample
 
 julia> using BenchmarkTools
 
-julia> @btime load_solve_output()
-  81.316 ms (813244 allocations: 44.14 MiB)
+julia>  @btime load_solve_output()
+  91.558 ms (770684 allocations: 42.55 MiB)
 ```
 
 ```julia
-julia> @benchmark load_solve_output()
-BenchmarkTools.Trial: 57 samples with 1 evaluation.
- Range (min … max):  81.106 ms … 94.895 ms  ┊ GC (min … max): 0.00% … 11.93%
- Time  (median):     92.188 ms              ┊ GC (median):    0.00%
- Time  (mean ± σ):   87.900 ms ±  5.560 ms  ┊ GC (mean ± σ):  6.34% ±  6.14%
+julia>  @benchmark load_solve_output()
+BenchmarkTools.Trial: 50 samples with 1 evaluation.
+ Range (min … max):   89.397 ms … 112.019 ms  ┊ GC (min … max): 0.00% … 10.47%
+ Time  (median):     101.321 ms               ┊ GC (median):    8.85%
+ Time  (mean ± σ):   100.588 ms ±   4.620 ms  ┊ GC (mean ± σ):  7.65% ±  3.63%
 
-    ▁  ▁▆                                             █▁▁
-  ▇▇█▆▄██▁▁▁▆▄▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▄▁▁▁▄▄▇███▇▆▄▄ ▁
-  81.1 ms         Histogram: frequency by time        94.3 ms <
+                           ▄█ ▄▄   ▄█▄  █   ▁ ▁
+  ▆▆▁▁▆▁▆▁▆▆▁▁▆▁▁▁▁▁▆▁▁▁▆▆▁██▆██▁▆▆███▁▆█▆▆▁█▁█▁▆▁▁▁▆▁▁▁▁▁▁▁▁▁▆ ▁
+  89.4 ms          Histogram: frequency by time          112 ms <
 
- Memory estimate: 44.14 MiB, allocs estimate: 813244.
+ Memory estimate: 42.55 MiB, allocs estimate: 770684.
+
 ```
 
 **Benchmarks for loading the system**:
 
 ```julia
-julia> @benchmark load()
-BenchmarkTools.Trial: 71 samples with 1 evaluation.
- Range (min … max):  63.689 ms … 84.467 ms  ┊ GC (min … max): 0.00% … 18.04%
- Time  (median):     67.277 ms              ┊ GC (median):    0.00%
- Time  (mean ± σ):   71.132 ms ±  6.847 ms  ┊ GC (mean ± σ):  5.46% ±  7.67%
+julia>  @benchmark load()
+BenchmarkTools.Trial: 62 samples with 1 evaluation.
+ Range (min … max):  75.334 ms … 92.629 ms  ┊ GC (min … max): 0.00% … 14.06%
+ Time  (median):     77.371 ms              ┊ GC (median):    0.00%
+ Time  (mean ± σ):   82.043 ms ±  6.286 ms  ┊ GC (mean ± σ):  6.64% ±  6.63%
 
-         ▃▅█▃▂
-  ▅▄▄▄▁▄▇██████▁▄▄▁▁▁▁▁▅▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▄▁▁▁▁▁▄▁▁▅▁▁▄▄▇▄▄█▄▇▁▄ ▁
-  63.7 ms         Histogram: frequency by time        83.6 ms <
+   █▄ ▆                                          ▃ ▁  ▁
+  ▇██▇█▇▁▄▄▁▁▁▁▄▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▄▁▆█▆█▆▄█▆▆▄▄▁▄ ▁
+  75.3 ms         Histogram: frequency by time        90.6 ms <
 
- Memory estimate: 25.73 MiB, allocs estimate: 644172.
+ Memory estimate: 24.93 MiB, allocs estimate: 610377.
 ```
 
 **Benchmarks for solving the model**:
 
 ```julia
-julia> @benchmark solve(system) setup=(system = load())
-BenchmarkTools.Trial: 57 samples with 1 evaluation.
- Range (min … max):  11.921 ms … 31.811 ms  ┊ GC (min … max):  0.00% … 51.55%
- Time  (median):     13.158 ms              ┊ GC (median):     0.00%
- Time  (mean ± σ):   15.247 ms ±  5.281 ms  ┊ GC (mean ± σ):  12.22% ± 17.44%
+julia>  @benchmark solve(system) setup=(system = load())
+BenchmarkTools.Trial: 52 samples with 1 evaluation.
+ Range (min … max):  12.773 ms … 24.979 ms  ┊ GC (min … max):  0.00% … 44.28%
+ Time  (median):     13.300 ms              ┊ GC (median):     0.00%
+ Time  (mean ± σ):   15.241 ms ±  4.303 ms  ┊ GC (mean ± σ):  12.50% ± 17.14%
 
-     █▁
-  ▇▅████▃▁▅▁▃▁▄▁▁▁▁▁▁▁▃▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▃▃▁▁▃▁▁▃▁▁▃▁▃ ▁
-  11.9 ms         Histogram: frequency by time        30.5 ms <
+  ▁█▄ ▄
+  █████▁▄▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁█▆ ▁
+  12.8 ms         Histogram: frequency by time        24.7 ms <
 
- Memory estimate: 10.25 MiB, allocs estimate: 164222.
+ Memory estimate: 9.45 MiB, allocs estimate: 155346.
+
 ```
 
 **Benchmarks for writing the results**:
