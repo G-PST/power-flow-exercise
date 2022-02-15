@@ -43,33 +43,33 @@ BenchmarkTools.Trial: 50 samples with 1 evaluation.
 **Benchmarks for loading the system**:
 
 ```julia
-julia>  @benchmark load()
-BenchmarkTools.Trial: 62 samples with 1 evaluation.
- Range (min … max):  75.334 ms … 92.629 ms  ┊ GC (min … max): 0.00% … 14.06%
- Time  (median):     77.371 ms              ┊ GC (median):    0.00%
- Time  (mean ± σ):   82.043 ms ±  6.286 ms  ┊ GC (mean ± σ):  6.64% ±  6.63%
+julia> @benchmark load()
+BenchmarkTools.Trial: 21 samples with 1 evaluation.
+ Range (min … max):  229.813 ms … 253.128 ms  ┊ GC (min … max): 0.00% … 3.10%
+ Time  (median):     240.946 ms               ┊ GC (median):    3.37%
+ Time  (mean ± σ):   241.128 ms ±   5.061 ms  ┊ GC (mean ± σ):  2.62% ± 1.72%
 
-   █▄ ▆                                          ▃ ▁  ▁
-  ▇██▇█▇▁▄▄▁▁▁▁▄▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▄▁▆█▆█▆▄█▆▆▄▄▁▄ ▁
-  75.3 ms         Histogram: frequency by time        90.6 ms <
+  ▁       ▁       ▁ ▁    █ ▁▁█ █ ▁▁ ▁ ▁ ▁ ▁   ▁▁              ▁
+  █▁▁▁▁▁▁▁█▁▁▁▁▁▁▁█▁█▁▁▁▁█▁███▁█▁██▁█▁█▁█▁█▁▁▁██▁▁▁▁▁▁▁▁▁▁▁▁▁▁█ ▁
+  230 ms           Histogram: frequency by time          253 ms <
 
- Memory estimate: 24.93 MiB, allocs estimate: 610377.
+ Memory estimate: 46.58 MiB, allocs estimate: 641804.
 ```
 
 **Benchmarks for solving the model**:
 
 ```julia
 julia>  @benchmark solve(system) setup=(system = load())
-BenchmarkTools.Trial: 52 samples with 1 evaluation.
- Range (min … max):  12.773 ms … 24.979 ms  ┊ GC (min … max):  0.00% … 44.28%
- Time  (median):     13.300 ms              ┊ GC (median):     0.00%
- Time  (mean ± σ):   15.241 ms ±  4.303 ms  ┊ GC (mean ± σ):  12.50% ± 17.14%
+BenchmarkTools.Trial: 21 samples with 1 evaluation.
+ Range (min … max):   9.784 ms … 19.948 ms  ┊ GC (min … max): 0.00% … 48.56%
+ Time  (median):     10.131 ms              ┊ GC (median):    0.00%
+ Time  (mean ± σ):   11.130 ms ±  2.843 ms  ┊ GC (mean ± σ):  7.76% ± 14.10%
 
-  ▁█▄ ▄
-  █████▁▄▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁█▆ ▁
-  12.8 ms         Histogram: frequency by time        24.7 ms <
+  █ ▄
+  ███▆▁▁▄▁▁▁▁▁▁▁▁▁▁▁▁▁▁▄▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▄▁▁▁▁▁▁▄ ▁
+  9.78 ms         Histogram: frequency by time        19.9 ms <
 
- Memory estimate: 9.45 MiB, allocs estimate: 155346.
+ Memory estimate: 9.46 MiB, allocs estimate: 155562.
 ```
 
 **Benchmarks for writing the results**:
