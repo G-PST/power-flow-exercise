@@ -39,6 +39,54 @@ BenchmarkTools.Trial: 95 samples with 1 evaluation.
  Memory estimate: 20.76 MiB, allocs estimate: 408695.
 ```
 
+**Benchmarks for loading the system**:
+
+```julia
+julia> @benchmark load()
+BenchmarkTools.Trial: 158 samples with 1 evaluation.
+ Range (min … max):  28.410 ms … 54.896 ms  ┊ GC (min … max): 0.00% … 14.60%
+ Time  (median):     30.072 ms              ┊ GC (median):    0.00%
+ Time  (mean ± σ):   31.833 ms ±  4.132 ms  ┊ GC (mean ± σ):  3.73% ±  6.25%
+
+    █▄▂▁
+  ▅▆████▅▃▃▃▂▂▂▂▂▃▄▄▅▄▃▃▄▂▂▁▂▁▁▁▂▁▁▁▁▂▁▁▁▁▁▁▁▁▂▁▁▁▁▁▁▂▁▁▁▁▁▁▂ ▂
+  28.4 ms         Histogram: frequency by time        49.3 ms <
+
+ Memory estimate: 14.53 MiB, allocs estimate: 386245.
+```
+
+**Benchmarks for solving the model**:
+
+```julia
+julia> @benchmark solve(system) setup=(system = load())
+BenchmarkTools.Trial: 145 samples with 1 evaluation.
+ Range (min … max):  3.570 ms … 10.347 ms  ┊ GC (min … max): 0.00% … 61.89%
+ Time  (median):     3.778 ms              ┊ GC (median):    0.00%
+ Time  (mean ± σ):   3.956 ms ±  1.038 ms  ┊ GC (mean ± σ):  4.29% ± 10.06%
+
+  ▅█▇▃
+  ████▄▁▆▄▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▄▄▄ ▄
+  3.57 ms      Histogram: log(frequency) by time     10.1 ms <
+
+ Memory estimate: 1.94 MiB, allocs estimate: 14973.
+```
+
+**Benchmarks for writing the results**:
+
+```julia
+julia> @benchmark output(res[1], res[2], PowerModelsExample.RTS_GMLC_MATPOWER_FILENAME) setup = (res = solve(load()))
+BenchmarkTools.Trial: 75 samples with 1 evaluation.
+ Range (min … max):  771.471 μs … 7.548 ms  ┊ GC (min … max):  0.00% … 88.30%
+ Time  (median):     947.297 μs             ┊ GC (median):     0.00%
+ Time  (mean ± σ):     1.131 ms ± 1.063 ms  ┊ GC (mean ± σ):  15.36% ± 14.23%
+
+  ██▇
+  ███▅▅▁▅▁▁▁▁▅▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▅ ▁
+  771 μs       Histogram: log(frequency) by time       7.3 ms <
+
+ Memory estimate: 4.28 MiB, allocs estimate: 7370.
+```
+
 ### Validation
 
 ```julia

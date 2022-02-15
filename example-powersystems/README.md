@@ -70,23 +70,22 @@ BenchmarkTools.Trial: 52 samples with 1 evaluation.
   12.8 ms         Histogram: frequency by time        24.7 ms <
 
  Memory estimate: 9.45 MiB, allocs estimate: 155346.
-
 ```
 
 **Benchmarks for writing the results**:
 
 ```julia
-julia> @benchmark output(results) setup = (results = solve(system))
-BenchmarkTools.Trial: 305 samples with 1 evaluation.
- Range (min … max):  768.933 μs … 31.928 ms  ┊ GC (min … max):  0.00% …  0.00%
- Time  (median):     890.851 μs              ┊ GC (median):     0.00%
- Time  (mean ± σ):     1.964 ms ±  3.382 ms  ┊ GC (mean ± σ):  45.92% ± 25.82%
+julia> @benchmark output(res, PowerSystemsExample.RTS_GMLC_MATPOWER_FILENAME) setup = (res = solve(load()))
+BenchmarkTools.Trial: 20 samples with 1 evaluation.
+ Range (min … max):  682.315 μs … 8.338 ms  ┊ GC (min … max):  0.00% … 89.24%
+ Time  (median):       1.078 ms             ┊ GC (median):     0.00%
+ Time  (mean ± σ):     2.049 ms ± 2.481 ms  ┊ GC (mean ± σ):  50.03% ± 32.28%
 
-  █▃▁
-  ███▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▄▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▄▄▅▇▇▇▆▄▆ ▆
-  769 μs        Histogram: log(frequency) by time      11.5 ms <
+  ▅ ██
+  █▅██▅▁▁▁▁▅▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▅▁▁▁▁▁▅▁▁▅ ▁
+  682 μs          Histogram: frequency by time        8.34 ms <
 
- Memory estimate: 8.16 MiB, allocs estimate: 4785.
+ Memory estimate: 8.16 MiB, allocs estimate: 4896.
 ```
 
 ### Validation

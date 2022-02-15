@@ -16,6 +16,7 @@ const ROOT = dirname(@__DIR__)
 const SEPARATOR = '─'
 
 export load_solve_output
+export load
 export solve
 export output
 export compare_v_gen_load
