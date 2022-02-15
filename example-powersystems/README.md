@@ -90,6 +90,7 @@ BenchmarkTools.Trial: 305 samples with 1 evaluation.
 ### Validation
 
 ```julia
+julia> compare_v_gen_load()
 std(powersystems.V - matpower.V) = 3.474609089123329e-8
 std(real.(powersystems.V) - real.(matpower.V)) = 1.8293489061758463e-8
 std(imag.(powersystems.V) - imag.(matpower.V)) = 2.9540465300485174e-8
