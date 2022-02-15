@@ -13,4 +13,7 @@ result_mat = fullfile(fPath, 'results', sprintf('%s.mat', fName));
 result_m = fullfile(fPath, 'results', sprintf('%s.m', fName));
 savecase(result_mat, res);
 savecase(result_m, res);
+csvwrite('resline.csv', res.branch(res.branch(:,9)==0,:))
+csvwrite('restrafo.csv', res.branch(res.branch(:,9)~=0,:))
+csvwrite('resbus.csv', res.bus)
 exit()
