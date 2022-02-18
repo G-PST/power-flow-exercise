@@ -12,6 +12,7 @@ const MATPOWER_DIR = joinpath(dirname(dirname(@__DIR__)), "reference-matpower")
 const RTS_GMLC_MATPOWER_FILENAME = joinpath(MATPOWER_DIR, "RTS_GMLC", "RTS_GMLC.m")
 const PEGASE_MATPOWER_FILENAME = joinpath(MATPOWER_DIR, "case9241pegase", "case9241pegase.m")
 const ROOT = dirname(@__DIR__)
+const SEPARATOR = '─'
 
 export load_solve_output
 export load
@@ -79,14 +80,19 @@ function compare_v_gen_load(;fname = RTS_GMLC_MATPOWER_FILENAME)
     @show std(abs.(powersystems.V - matpower.V))
     @show std(abs.(powersystems.gen - matpower.gen))
     @show std(abs.(powersystems.load - matpower.load))
-    println()
-    display(histogram(abs.(powersystems.V - matpower.V), xlabel = "Voltage"))
-    display(histogram(abs.(powersystems.gen - matpower.gen), xlabel = "Generation"))
-    display(histogram(abs.(powersystems.load - matpower.load), xlabel = "Load"))
-    println()
-    display(boxplot(abs.(powersystems.V - matpower.V), xlabel = "Voltage"))
-    display(boxplot(abs.(powersystems.gen - matpower.gen), xlabel = "Generation"))
-    display(boxplot(abs.(powersystems.load - matpower.load), xlabel = "Load"))
+    println(repeat(SEPARATOR, displaysize(stdout)[2]))
+    display(histogram(abs.(powersystems.V - matpower.V), title = "Voltage", xlabel=""))
+    println(repeat(SEPARATOR, displaysize(stdout)[2]))
+    display(histogram(abs.(powersystems.gen - matpower.gen), title = "Generation", xlabel=""))
+    println(repeat(SEPARATOR, displaysize(stdout)[2]))
+    display(histogram(abs.(powersystems.load - matpower.load), title = "Load", xlabel=""))
+    println(repeat(SEPARATOR, displaysize(stdout)[2]))
+    display(boxplot(abs.(powersystems.V - matpower.V), title = "Voltage", xlabel = ""))
+    println(repeat(SEPARATOR, displaysize(stdout)[2]))
+    display(boxplot(abs.(powersystems.gen - matpower.gen), title = "Generation", xlabel = ""))
+    println(repeat(SEPARATOR, displaysize(stdout)[2]))
+    display(boxplot(abs.(powersystems.load - matpower.load), title = "Load", xlabel = ""))
+    println(repeat(SEPARATOR, displaysize(stdout)[2]))
 end
 
 
@@ -105,7 +111,7 @@ function compare_v_gen_load_nodal(;fname = RTS_GMLC_MATPOWER_FILENAME, size = 10
     matpower.load = matpower.p_load .+ (im .* matpower.q_load)
 
     function sort_vec(vec, len)
-        perm = sortperm(vec, rev = true)
+        perm = sortperm(abs.(vec), rev = true)
         return DataFrame(:id=> perm[1:len], :diff=>vec[perm[1:len]])
     end
 
@@ -119,14 +125,19 @@ function compare_v_gen_load_nodal(;fname = RTS_GMLC_MATPOWER_FILENAME, size = 10
     @show sort_vec(abs.(powersystems.V - matpower.V), size)
     @show sort_vec(abs.(powersystems.gen - matpower.gen), size)
     @show sort_vec(abs.(powersystems.load - matpower.load), size)
-    println()
+    println(repeat(SEPARATOR, displaysize(stdout)[2]))
     display(histogram(abs.(powersystems.V - matpower.V), xlabel = "Voltage"))
+    println(repeat(SEPARATOR, displaysize(stdout)[2]))
     display(histogram(abs.(powersystems.gen - matpower.gen), xlabel = "Generation"))
+    println(repeat(SEPARATOR, displaysize(stdout)[2]))
     display(histogram(abs.(powersystems.load - matpower.load), xlabel = "Load"))
-    println()
+    println(repeat(SEPARATOR, displaysize(stdout)[2]))
     display(boxplot(abs.(powersystems.V - matpower.V), xlabel = "Voltage"))
+    println(repeat(SEPARATOR, displaysize(stdout)[2]))
     display(boxplot(abs.(powersystems.gen - matpower.gen), xlabel = "Generation"))
+    println(repeat(SEPARATOR, displaysize(stdout)[2]))
     display(boxplot(abs.(powersystems.load - matpower.load), xlabel = "Load"))
+    println(repeat(SEPARATOR, displaysize(stdout)[2]))
 end
 
 function compare_from_to_loss(;fname = RTS_GMLC_MATPOWER_FILENAME)
@@ -150,14 +161,19 @@ function compare_from_to_loss(;fname = RTS_GMLC_MATPOWER_FILENAME)
     @show std(abs.(powersystems.from - matpower.from))
     @show std(abs.(powersystems.to - matpower.to))
     @show std(abs.(powersystems.loss - matpower.loss))
-    println()
+    println(repeat(SEPARATOR, displaysize(stdout)[2]))
     display(histogram(abs.(powersystems.from - matpower.from), xlabel = "From"))
+    println(repeat(SEPARATOR, displaysize(stdout)[2]))
     display(histogram(abs.(powersystems.to - matpower.to), xlabel = "To"))
+    println(repeat(SEPARATOR, displaysize(stdout)[2]))
     display(histogram(abs.(powersystems.loss - matpower.loss), xlabel = "Loss"))
-    println()
+    println(repeat(SEPARATOR, displaysize(stdout)[2]))
     display(boxplot(abs.(powersystems.from - matpower.from), xlabel = "From"))
+    println(repeat(SEPARATOR, displaysize(stdout)[2]))
     display(boxplot(abs.(powersystems.to - matpower.to), xlabel = "To"))
+    println(repeat(SEPARATOR, displaysize(stdout)[2]))
     display(boxplot(abs.(powersystems.loss - matpower.loss), xlabel = "Loss"))
+    println(repeat(SEPARATOR, displaysize(stdout)[2]))
 end
 
 
