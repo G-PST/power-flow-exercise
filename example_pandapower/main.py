@@ -2,13 +2,11 @@ import os
 import timeit
 import pandas as pd
 
-import pypsa
+import logging
 
 import numpy as np
 import pandapower as pp
 import pandapower.converter
-
-import logging
 
 logging.basicConfig(#filename=os.path.join("example_pandapower", "log.out"),
                     #filemode='w',
@@ -18,6 +16,10 @@ logging.basicConfig(#filename=os.path.join("example_pandapower", "log.out"),
 
 logger = logging.getLogger(__name__)
 
+try:
+    import pypsa
+except ImportError:
+    logger.info("failed to import pypsa!")
 
 def compare_to_matpower(net):
     bus_results = pd.read_csv(os.path.join("reference-matpower", "results", "bus.csv"), index_col=0)
@@ -63,7 +65,7 @@ def check_net_ensure_unique_names(net):
 
 def load_rts_grid():
     # Attention: PyPSA takes name as index!!!!! Must be unique!
-    net = pp.converter.from_mpc(os.path.join("reference-matpower", "RTS_GMLC", "RTS_GMLC.mat"))
+    net = pp.converter.from_mpc(os.path.join("..", "reference-matpower", "RTS_GMLC", "RTS_GMLC.mat"))
     # make bus name match MATPOWER bus name
     pp.toolbox.reindex_buses(net, net.bus.name + 1)
     assign_additional_data(net)
