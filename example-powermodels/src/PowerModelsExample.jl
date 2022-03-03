@@ -16,6 +16,7 @@ const ROOT = dirname(@__DIR__)
 const SEPARATOR = '─'
 
 export load_solve_output
+export load
 export solve
 export output
 export compare_v_gen_load
@@ -27,7 +28,8 @@ function load(;fname = RTS_GMLC_MATPOWER_FILENAME)
 end
 
 function solve(data)
-    results = compute_ac_pf(data)
+    #results = run_pf(data, ACPPowerModel, Ipopt.Optimizer) #optimization
+    results = compute_ac_pf(data) #simulation
     (results, data)
 end
 
