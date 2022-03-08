@@ -56,3 +56,12 @@ The performances result based on 20 runs are:
 | **power-flow ```BASIC_LF_PARAMTERS```**| 2.33 s ± 441 ms
 | **power-flow ```STANDARD_LF_PARAMTERS```**|4.13 s ± 609 ms
 | **power-flow ```Default```** | 3.8 s ± 569 ms
+
+
+The same benchmark was done based on a fork of **powsybl-benchmark** in **java**: ['../example-powsybl']('../example-powsybl/')
+
+The performances results based on 20 runs are:
+| | |
+| --- | --- |
+| **power-flow ```BASIC_LF_PARAMTERS```**| 1.214 s stdev 299 ms
+| **power-flow ```STANDARD_LF_PARAMTERS```**| 2.470 stdev 581 ms
