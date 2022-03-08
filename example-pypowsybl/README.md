@@ -18,25 +18,41 @@ pip3 install pypowsybl --user
 The PowSyBl importer for MATPOWER files make use `.mat` files. The procedure to make the conversion from `.m` is explained [here](https://www.powsybl.org/pages/documentation/grid/formats/matpower.html).
 The resulting input file is [resources/RTS_GMLC.mat](resources/RTS_GMLC.mat)
 
-The example is then executed in [power-flow-exercice.ipynb](power-flow-exercice.ipynb)
-
 The script [script/pypowsyblexample.py](script/pypowsyblexample.py) contains functions to format the output to enable comparison with [../reference-matpower/results/bus.csv](../reference-matpower/results/bus.csv).
 
-Note that the same function for flows is not yet working as the identification of the branches differ significantly from MATPOWER.
+The example is then executed in [power-flow-exercice.ipynb](power-flow-exercice.ipynb)
 
+Various Load-flow parameters are benchmarked:
+- ```BASIC_LF_PARAMETERS```: which has the closest results to those of MATPOWER and the best performances
+- ```STANDARD_LF_PARAMETERS```, and None: which have very similar results. These parameters are considered delivering more realistic results (slack distribution, reactive limits on generators) that have a cost in
 ## Results
-### Performances:
-- **load**: 99.3 ms ± 7.11 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
-- **run load flow**: 10.1 ms ± 375 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
-
-### Comparison with MATPOWER results
-To compare the phase, ```slack_angle_delta = - 10.564``` was added. It corresponds to the angle of *bus 121* in MATPOWER results to shift the angle reference as *bus 121* is the slack bus in pypowsybl calculation.
-
-
+### Comparison with MATPOWER results RTS
+With ```BASIC_LF_PARAMETERS```
 | | angle | v_mag |
 | :---: | :---: | :---: |
 | **count** | 73 | 73 |
-| **mean** | 1.917808e-04| 3.802134e-17 |
-| **std** | 3.964262e-04 | 8.111971e-17 |
-| **min** | 0.000000e+00 | 0.000000e+00 |
-| **max** | 1.000000e-03 | 2.220446e-16
+| **mean** | 2.507553e-07| 0.000139
+| **std** | 4.322189e-07 | 0.000102
+| **min** | 0.000000e+00 | 0.000000e+00
+| **max** | 1.822788e-06 | 0.000476
+
+With ```STANDARD_LF_PARAMETERS``` as well as ```Default```
+| | angle | v_mag |
+| :---: | :---: | :---: |
+**count** | 7.300000e+01 | 73.000000
+**mean** | 5.250719e-06 | 0.000286
+**std** | 1.217706e-05 | 0.000267
+**min** | 0.000000e+00 | 0.000000
+**max** | 7.176813e-05 | 0.000994
+
+### Performances test is run on case9241pegase
+In the Jupyter notebook the results are also compared with those of MATPOWER. The same kind of observations can be made: BASIC is closer to 
+MATPOWER, whild STANDARD and None are very similar.
+
+The performances result based on 20 runs are:
+| | |
+| --- | --- |
+| **loading** | 1.44 s ± 353 ms
+| **power-flow ```BASIC_LF_PARAMTERS```**| 2.33 s ± 441 ms
+| **power-flow ```STANDARD_LF_PARAMTERS```**|4.13 s ± 609 ms
+| **power-flow ```Default```** | 3.8 s ± 569 ms
