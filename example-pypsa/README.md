@@ -34,10 +34,10 @@ Open the jupyter lab notebook by typing `jupyter lab` in the terminal.
 - [x] Set up notebook and local PyPSA version for PR's (pandapower importer is in beta and requires changes)
 - [x] Converging ac-powerflow
 - [x] Add default cost from pypsa-eur
-- [ ] Add carrier name such as ["wind"] for wind plants
-- [ ] Optional. Add technical limits for installations
-- [ ] Adjust capital cost of line by defining line length from voltage level and resistance?
-- [ ] Add renewable constraint/ CO2 accounting
+- [x] Add carrier name such as ["wind"] for wind plants
+- [x] Optional. Add technical limits for installations
+- [x] Adjust capital cost of line by defining line length from voltage level and resistance?
+- [x] Add renewable constraint/ CO2 accounting
 - [ ] Increase load (reflecting standard load growth, electrification, ...)
       a. Assumptions: only add conductors on existing paths, capital-costs, ...  
       b. One scenario results in a new generation porfolio 
