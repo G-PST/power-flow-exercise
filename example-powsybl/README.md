@@ -15,11 +15,17 @@ The performances result based on 20 runs are:
 Install `maven` from a package manager of your choice
 
 ```
-conda install -c conda-forge maven
+$ conda install -c conda-forge maven
 ```
 
 Run `mvn package`:
 
 ```bash
-mvn package
+$ mvn package
+```
+
+Execute BenchmarkRunner class:
+
+```bash
+$ java -cp target/power-flow-exercice-1.0.0-SNAPSHOT.jar com.powsybl.benchmark.BenchmarkRunner
 ```
