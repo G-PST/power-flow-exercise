@@ -1,6 +1,7 @@
 module PowerSystemsExample
 
 using PowerSystems
+using PowerModelsInterface
 using CSV
 using Pkg.Artifacts
 using Logging
@@ -25,15 +26,12 @@ export compare_from_to_loss
 
 function load(;fname = RTS_GMLC_MATPOWER_FILENAME)
     system = System(fname)
-    if fname == PEGASE_MATPOWER_FILENAME
-        remove_components!(system, PhaseShiftingTransformer) # not supported in PF
-    end
-    system
+    return system
 end
 
-function solve(system)
-    results = PowerSystems.solve_powerflow(system)
-    results
+function solve(system; method = PowerSystems)
+    results = methd == PowerModelsInterface ? compute_ac_pf(system) : solve_powerflow(system)
+    return results
 end
 
 function output(results, fname)
