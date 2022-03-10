@@ -26,8 +26,8 @@ except ImportError:
 
 
 def compare_to_matpower(net):
-    bus_results = pd.read_csv(os.path.join("reference-matpower", "results", "bus.csv"), index_col=0)
-    branch_results = pd.read_csv(os.path.join("reference-matpower", "results", "flow.csv"), index_col=0)
+    bus_results = pd.read_csv(os.path.join("reference-matpower", "RTS_GMLC", "results", "bus.csv"), index_col=0)
+    branch_results = pd.read_csv(os.path.join("reference-matpower", "RTS_GMLC", "results", "flow.csv"), index_col=0)
 
     # compare bus results
     # merged_results = pd.merge(bus_results, net.res_bus, how='inner', left_index=True, right_on=net.bus.id)
@@ -204,25 +204,30 @@ def set_up_ow(net, time_steps, output_path=None):
 
 
 def timings():
-    logger.info("timing of loading of pandapower net from JSON")
     # logger.info(timeit.timeit('_=pp.from_json(os.path.join("example_pandapower", "pandapower_net.json"))', globals=globals(), number=1000))
-    logger.info(
-        timeit.timeit('_=pp.converter.from_mpc(os.path.join("reference-matpower", "RTS_GMLC.mat"))', globals=globals(),
-                      number=100))
-    logger.info("timing of saving of pandapower net to JSON")
-    # logger.info(timeit.timeit('pp.to_json(net, os.path.join("example_pandapower", "temp.json"))', globals=globals(), number=1000))
-    logger.info(
-        timeit.timeit('pp.converter.to_mpc(net, os.path.join("example_pandapower", "temp.mpc"))', globals=globals(),
-                      number=100))
-    logger.info('running power flow calculation')
-    pp.runpp(net, enforce_q_lims=False)
+    executions = 10
+    logger.info('.mat file loading mean execution time %s seconds',
+        timeit.timeit('net=pp.converter.from_mpc(os.path.join("..", "reference-matpower", "RTS_GMLC", "RTS_GMLC.mat"))',
+            globals=globals(),
+            number=executions)/executions)
 
-    logger.info('power flow calculation successful. validating results')
-    compare_to_matpower(net)
-    logger.info("timing for 1000 iterations:")
+    executions = 1000
+    logger.info('Power flow mean execution time %s seconds',
+        timeit.timeit("pp.runpp(net)",
+            'net=pp.converter.from_mpc(os.path.join("..","reference-matpower", "RTS_GMLC", "RTS_GMLC.mat"))',
+            globals=globals(),
+            number=executions)/executions)
 
-    logger.info(timeit.timeit("pp.runpp(net)", globals=globals(), number=1000))
-
+    executions = 10
+    logger.info('.json output file mean execution time %s seconds',
+        timeit.timeit('pp.to_json(net, os.path.join(".", "temp.json"))',
+            'net=pp.converter.from_mpc(os.path.join("..", "reference-matpower", "RTS_GMLC", "RTS_GMLC.mat")); pp.runpp(net)',
+            globals=globals(),
+            number=executions)/executions)
+    # I can't get it to write the mpc file. I believe the string bus names are the issue.
+    #logger.info(
+    #    timeit.timeit('pp.converter.to_mpc(net, os.path.join(".", "temp.mpc"))', 'net=pp.converter.from_mpc(os.path.join("..", "reference-matpower", "RTS_GMLC", "RTS_GMLC.mat")); pp.runpp(net)', globals=globals(),
+    #                  number=executions)/executions)
 
 if __name__ == "__main__":
     # from example_pandapower.main import *

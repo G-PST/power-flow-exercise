@@ -22,19 +22,19 @@ julia> using PowerSystemsExample
 julia> using BenchmarkTools
 
 julia>  @btime load_solve_output()
-  91.558 ms (770684 allocations: 42.55 MiB)
+  63.144 ms (770684 allocations: 42.55 MiB)
 ```
 
 ```julia
-julia>  @benchmark load_solve_output()
-BenchmarkTools.Trial: 50 samples with 1 evaluation.
- Range (min … max):   89.397 ms … 112.019 ms  ┊ GC (min … max): 0.00% … 10.47%
- Time  (median):     101.321 ms               ┊ GC (median):    8.85%
- Time  (mean ± σ):   100.588 ms ±   4.620 ms  ┊ GC (mean ± σ):  7.65% ±  3.63%
+julia> @benchmark load_solve_output()
+BenchmarkTools.Trial: 72 samples with 1 evaluation.
+ Range (min … max):  64.411 ms … 73.508 ms  ┊ GC (min … max): 0.00% … 9.15%
+ Time  (median):     70.516 ms              ┊ GC (median):    8.06%
+ Time  (mean ± σ):   69.643 ms ±  2.649 ms  ┊ GC (mean ± σ):  6.81% ± 3.67%
 
-                           ▄█ ▄▄   ▄█▄  █   ▁ ▁
-  ▆▆▁▁▆▁▆▁▆▆▁▁▆▁▁▁▁▁▆▁▁▁▆▆▁██▆██▁▆▆███▁▆█▆▆▁█▁█▁▆▁▁▁▆▁▁▁▁▁▁▁▁▁▆ ▁
-  89.4 ms          Histogram: frequency by time          112 ms <
+   ▁                                     ▃  ▃       ▁█▄
+  ▆█▆▇▄▄▄▄▁▁▁▁▁▁▁▁▁▁▁▄▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▄▄█▁▇█▆▇▄▄▄▄▄███▇▇▇▄▁▆ ▁
+  64.4 ms         Histogram: frequency by time        72.4 ms <
 
  Memory estimate: 42.55 MiB, allocs estimate: 770684.
 
@@ -44,46 +44,46 @@ BenchmarkTools.Trial: 50 samples with 1 evaluation.
 
 ```julia
 julia> @benchmark load()
-BenchmarkTools.Trial: 21 samples with 1 evaluation.
- Range (min … max):  229.813 ms … 253.128 ms  ┊ GC (min … max): 0.00% … 3.10%
- Time  (median):     240.946 ms               ┊ GC (median):    3.37%
- Time  (mean ± σ):   241.128 ms ±   5.061 ms  ┊ GC (mean ± σ):  2.62% ± 1.72%
+BenchmarkTools.Trial: 88 samples with 1 evaluation.
+ Range (min … max):  53.140 ms … 62.711 ms  ┊ GC (min … max): 0.00% … 13.81%
+ Time  (median):     54.074 ms              ┊ GC (median):    0.00%
+ Time  (mean ± σ):   57.228 ms ±  3.959 ms  ┊ GC (mean ± σ):  5.97% ±  6.26%
 
-  ▁       ▁       ▁ ▁    █ ▁▁█ █ ▁▁ ▁ ▁ ▁ ▁   ▁▁              ▁
-  █▁▁▁▁▁▁▁█▁▁▁▁▁▁▁█▁█▁▁▁▁█▁███▁█▁██▁█▁█▁█▁█▁▁▁██▁▁▁▁▁▁▁▁▁▁▁▁▁▁█ ▁
-  230 ms           Histogram: frequency by time          253 ms <
+   ▁█▂                                             ▁
+  ▆█████▃▁▃▁▁▁▁▁▁▃▁▁▁▁▃▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▃██▇▆▆▆▄▄▁▅ ▁
+  53.1 ms         Histogram: frequency by time        62.6 ms <
 
- Memory estimate: 46.58 MiB, allocs estimate: 641804.
+ Memory estimate: 24.93 MiB, allocs estimate: 610377.
 ```
 
 **Benchmarks for solving the model**:
 
 ```julia
-julia>  @benchmark solve(system) setup=(system = load())
-BenchmarkTools.Trial: 21 samples with 1 evaluation.
- Range (min … max):   9.784 ms … 19.948 ms  ┊ GC (min … max): 0.00% … 48.56%
- Time  (median):     10.131 ms              ┊ GC (median):    0.00%
- Time  (mean ± σ):   11.130 ms ±  2.843 ms  ┊ GC (mean ± σ):  7.76% ± 14.10%
+julia> @benchmark solve(system) setup=(system = load())
+BenchmarkTools.Trial: 74 samples with 1 evaluation.
+ Range (min … max):   8.905 ms … 17.080 ms  ┊ GC (min … max):  0.00% … 45.12%
+ Time  (median):      9.301 ms              ┊ GC (median):     0.00%
+ Time  (mean ± σ):   10.505 ms ±  2.856 ms  ┊ GC (mean ± σ):  11.70% ± 16.60%
 
-  █ ▄
-  ███▆▁▁▄▁▁▁▁▁▁▁▁▁▁▁▁▁▁▄▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▄▁▁▁▁▁▁▄ ▁
-  9.78 ms         Histogram: frequency by time        19.9 ms <
+    █▂
+  ▅▆██▃▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▂▆ ▁
+  8.9 ms          Histogram: frequency by time          17 ms <
 
- Memory estimate: 9.46 MiB, allocs estimate: 155562.
+ Memory estimate: 9.45 MiB, allocs estimate: 155346.
 ```
 
 **Benchmarks for writing the results**:
 
 ```julia
 julia> @benchmark output(res, PowerSystemsExample.RTS_GMLC_MATPOWER_FILENAME) setup = (res = solve(load()))
-BenchmarkTools.Trial: 20 samples with 1 evaluation.
- Range (min … max):  682.315 μs … 8.338 ms  ┊ GC (min … max):  0.00% … 89.24%
- Time  (median):       1.078 ms             ┊ GC (median):     0.00%
- Time  (mean ± σ):     2.049 ms ± 2.481 ms  ┊ GC (mean ± σ):  50.03% ± 32.28%
+BenchmarkTools.Trial: 72 samples with 1 evaluation.
+ Range (min … max):  1.193 ms … 6.899 ms  ┊ GC (min … max):  0.00% … 78.38%
+ Time  (median):     1.275 ms             ┊ GC (median):     0.00%
+ Time  (mean ± σ):   2.002 ms ± 1.849 ms  ┊ GC (mean ± σ):  33.95% ± 26.51%
 
-  ▅ ██
-  █▅██▅▁▁▁▁▅▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▅▁▁▁▁▁▅▁▁▅ ▁
-  682 μs          Histogram: frequency by time        8.34 ms <
+  █▄                                                      ▁
+  ██▁▅▁▁▁▁▁▁▁▅▁▅▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▇█ ▁
+  1.19 ms     Histogram: log(frequency) by time     6.89 ms <
 
  Memory estimate: 8.16 MiB, allocs estimate: 4896.
 ```
@@ -231,4 +231,11 @@ std(abs.(powersystems.loss - matpower.loss)) = 42.336233562612655
                        Loss
 ────────────────────────────────────────────────────────────────
 
+```
+
+For the PEGASE case:
+
+```julia
+julia> @time load_solve_output(fname = PowerSystemsExample.PEGASE_MATPOWER_FILENAME)
+736.203094 seconds (780.46 M allocations: 356.371 GiB, 9.72% gc time, 0.33% compilation time)
 ```

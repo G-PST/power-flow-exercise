@@ -74,6 +74,30 @@ The tutorials will be opened in a browser window.
 
 ## Example using the RTS-GMLC benchmark power system
 
+### Performance
+
+```python
+In [1]: from main import *
+21:33:26 main INFO failed to import pypsa!
+
+In [2]: timings()
+21:33:46 pandapower.converter.matpower.from_mpc INFO added fields ['areas', 'bus_name', 'gen_name'] in net._options
+21:33:48 pandapower.converter.matpower.from_mpc INFO added fields ['areas', 'bus_name', 'gen_name'] in net._options
+21:33:50 pandapower.converter.matpower.from_mpc INFO added fields ['areas', 'bus_name', 'gen_name'] in net._options
+21:33:52 pandapower.converter.matpower.from_mpc INFO added fields ['areas', 'bus_name', 'gen_name'] in net._options
+21:33:54 pandapower.converter.matpower.from_mpc INFO added fields ['areas', 'bus_name', 'gen_name'] in net._options
+21:33:55 pandapower.converter.matpower.from_mpc INFO added fields ['areas', 'bus_name', 'gen_name'] in net._options
+21:33:57 pandapower.converter.matpower.from_mpc INFO added fields ['areas', 'bus_name', 'gen_name'] in net._options
+21:33:59 pandapower.converter.matpower.from_mpc INFO added fields ['areas', 'bus_name', 'gen_name'] in net._options
+21:34:01 pandapower.converter.matpower.from_mpc INFO added fields ['areas', 'bus_name', 'gen_name'] in net._options
+21:34:03 pandapower.converter.matpower.from_mpc INFO added fields ['areas', 'bus_name', 'gen_name'] in net._options
+21:34:03 main INFO .mat file loading mean execution time 1.8515627166256308 seconds
+21:34:05 pandapower.converter.matpower.from_mpc INFO added fields ['areas', 'bus_name', 'gen_name'] in net._options
+21:34:18 main INFO Power flow mean execution time 0.013541021002456546 seconds
+21:34:20 pandapower.converter.matpower.from_mpc INFO added fields ['areas', 'bus_name', 'gen_name'] in net._options
+21:34:20 main INFO .json output file mean execution time 0.020278214011341333 seconds
+```
+
 ### Performance of File I/O
 
 Timing of the file I/O operations is shown in the following table.

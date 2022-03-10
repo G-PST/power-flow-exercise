@@ -46,16 +46,16 @@ With ```STANDARD_LF_PARAMETERS``` as well as ```Default```
 **max** | 7.176813e-05 | 0.000994
 
 ### Performances test is run on case9241pegase
-In the Jupyter notebook the results are also compared with those of MATPOWER. The same kind of observations can be made: BASIC is closer to 
+In the Jupyter notebook the results are also compared with those of MATPOWER. The same kind of observations can be made: BASIC is closer to
 MATPOWER, whild STANDARD and None are very similar.
 
 The performances result based on 20 runs are:
-| | |
-| --- | --- |
-| **loading** | 1.44 s ± 353 ms
-| **power-flow ```BASIC_LF_PARAMTERS```**| 2.33 s ± 441 ms
-| **power-flow ```STANDARD_LF_PARAMTERS```**|4.13 s ± 609 ms
-| **power-flow ```Default```** | 3.8 s ± 569 ms
+| | RTS-GMLC | PEGASE |
+| --- | --- | --- |
+| **loading** | 9.08 ms ± 782 µs | 790 ms ± 180 ms
+| **power-flow ```BASIC_LF_PARAMTERS```**| 2.97 ms ± 467 µs | 1.3 s ± 215 ms
+| **power-flow ```STANDARD_LF_PARAMTERS```**| 4.02 ms ± 22.4 µs | 2.12 s ± 254 ms
+| **power-flow ```Default```** | 4.03 ms ± 24 µs | 2.16 s ± 255 ms
 
 
 The same benchmark was done based on a fork of **powsybl-benchmark** in **java**: ['../example-powsybl']('../example-powsybl/')

@@ -25,6 +25,9 @@ export compare_from_to_loss
 
 function load(;fname = RTS_GMLC_MATPOWER_FILENAME)
     system = System(fname)
+    if fname == PEGASE_MATPOWER_FILENAME
+        remove_components!(system, PhaseShiftingTransformer) # not supported in PF
+    end
     system
 end
 
