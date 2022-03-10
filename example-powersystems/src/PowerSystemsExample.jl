@@ -30,7 +30,12 @@ function load(;fname = RTS_GMLC_MATPOWER_FILENAME)
 end
 
 function solve(system; method = PowerSystems)
-    results = methd == PowerModelsInterface ? compute_ac_pf(system) : solve_powerflow(system)
+    if method == PowerModelsInterface
+        pm_data = get_pm_data(system)
+        results = gather_results(compute_ac_pf(pm_data), pm_data)
+    else
+        results = solve_powerflow(system)
+    end
     return results
 end
 
@@ -47,7 +52,8 @@ function load_solve_output(; disable_logging = true, fname = RTS_GMLC_MATPOWER_F
     !disable_logging && println("Loading system...")
     system = load(fname = fname)
     !disable_logging && println("Solve system...")
-    results = solve(system)
+    method = fname == RTS_GMLC_MATPOWER_FILENAME ? PowerSystems : PowerModelsInterface
+    results = solve(system; method = method)
     !disable_logging && println("Writing results...")
     output(results, fname)
     !disable_logging && println("Done!")
@@ -177,5 +183,81 @@ function compare_from_to_loss(;fname = RTS_GMLC_MATPOWER_FILENAME)
     println(repeat(SEPARATOR, displaysize(stdout)[2]))
 end
 
+function gather_results(results, data)
+    bus_n_arr = sort(parse.(Int, keys(results["solution"]["bus"])))
+
+    v_mag_arr = Vector{Union{Missing, Float64}}(missing, length(bus_n_arr))
+    v_ang_arr = Vector{Union{Missing, Float64}}(missing, length(bus_n_arr))
+
+    map(bus_n_arr) do b
+        x = results["solution"]["bus"][string(b)]["vm"]
+        i = only(findall(x -> x==b, bus_n_arr))
+        v_mag_arr[i] = x
+    end
+
+    map(bus_n_arr) do b
+        x = results["solution"]["bus"][string(b)]["va"]
+        i = only(findall(x -> x==b, bus_n_arr))
+        v_ang_arr[i] = x
+    end
+
+    gen_n_arr = sort(parse.(Int, keys(results["solution"]["gen"])))
+
+    p_gen_arr = Vector{Union{Missing, Float64}}(missing, length(bus_n_arr))
+    q_gen_arr = Vector{Union{Missing, Float64}}(missing, length(bus_n_arr))
+
+    map(gen_n_arr) do b
+        x = results["solution"]["gen"][string(b)]["pg"]
+        b = data["gen"][string(b)]["gen_bus"]
+        i = only(findall(x -> x==b, bus_n_arr))
+        p_gen_arr[i] === missing && (p_gen_arr[i] = 0)
+        p_gen_arr[i] += x
+    end
+
+    map(gen_n_arr) do b
+        x = results["solution"]["gen"][string(b)]["qg"]
+        b = data["gen"][string(b)]["gen_bus"]
+        i = only(findall(x -> x==b, bus_n_arr))
+        q_gen_arr[i] === missing && (q_gen_arr[i] = 0)
+        q_gen_arr[i] += x
+    end
+
+    load_n_arr = sort(parse.(Int, keys(data["load"])))
+
+    p_load_arr = Vector{Union{Missing, Float64}}(missing, length(bus_n_arr))
+    q_load_arr = Vector{Union{Missing, Float64}}(missing, length(bus_n_arr))
+
+    map(load_n_arr) do b
+        x = data["load"][string(b)]["pd"]
+        b = data["load"][string(b)]["load_bus"]
+        i = only(findall(x -> x==b, bus_n_arr))
+        p_load_arr[i] === missing && (p_load_arr[i] = 0)
+        p_load_arr[i] += x
+    end
+
+    map(load_n_arr) do b
+        x = data["load"][string(b)]["qd"]
+        b = data["load"][string(b)]["load_bus"]
+        i = only(findall(x -> x==b, bus_n_arr))
+        q_load_arr[i] === missing && (q_load_arr[i] = 0)
+        q_load_arr[i] += x
+    end
+
+    df = DataFrame([
+        bus_n_arr,
+        v_mag_arr,
+        v_ang_arr,
+        p_gen_arr * data["baseMVA"],
+        q_gen_arr * data["baseMVA"],
+        p_load_arr * data["baseMVA"],
+        q_load_arr * data["baseMVA"],
+        # λ_p_arr,
+        # λ_q_arr,
+    ], [:bus_n, :v_mag, :v_ang, :p_gen, :q_gen, :p_load, :q_load])
+
+    flow_names = ["line_name","bus_from","bus_to","P_from_to","Q_from_to","P_to_from","Q_to_from","P_losses","Q_losses"]
+    flow_res = DataFrame(Dict(zip(flow_names, [[] for n in flow_names])))
+    return Dict("bus_results" => df, "flow_results" => flow_res)
+end
 
 end # module
