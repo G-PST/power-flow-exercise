@@ -229,6 +229,28 @@ def timings():
     #    timeit.timeit('pp.converter.to_mpc(net, os.path.join(".", "temp.mpc"))', 'net=pp.converter.from_mpc(os.path.join("..", "reference-matpower", "RTS_GMLC", "RTS_GMLC.mat")); pp.runpp(net)', globals=globals(),
     #                  number=executions)/executions)
 
+def timings_pegase():
+    # logger.info(timeit.timeit('_=pp.from_json(os.path.join("example_pandapower", "pandapower_net.json"))', globals=globals(), number=1000))
+    executions = 1
+    logger.info('.mat file loading mean execution time %s seconds',
+        timeit.timeit('net=pp.converter.from_mpc(os.path.join("..", "reference-matpower", "case9241pegase", "case9241pegase.mat"))',
+            globals=globals(),
+            number=executions)/executions)
+
+    executions = 1
+    logger.info('Power flow mean execution time %s seconds',
+        timeit.timeit("pp.runpp(net)",
+            'net=pp.converter.from_mpc(os.path.join("..","reference-matpower", "case9241pegase", "case9241pegase.mat"))',
+            globals=globals(),
+            number=executions)/executions)
+
+    executions = 1
+    logger.info('.json output file mean execution time %s seconds',
+        timeit.timeit('pp.to_json(net, os.path.join(".", "temp.json"))',
+            'net=pp.converter.from_mpc(os.path.join("..", "reference-matpower", "case9241pegase", "case9241pegase.mat")); pp.runpp(net)',
+            globals=globals(),
+            number=executions)/executions)
+
 if __name__ == "__main__":
     # from example_pandapower.main import *
     logger.info("loading pandapower net")
