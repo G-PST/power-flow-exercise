@@ -23,11 +23,12 @@ $ conda install -c conda-forge maven
 Run `mvn package`:
 
 ```bash
+$ mvn clean verify
 $ mvn package
 ```
 
 Execute BenchmarkRunner class:
 
 ```bash
-$ java -cp target/power-flow-exercice-1.0.0-SNAPSHOT.jar com.powsybl.benchmark.BenchmarkRunner
+$ java -jar target/power-flow-exercice-1.0.0-SNAPSHOT.jar
 ```
