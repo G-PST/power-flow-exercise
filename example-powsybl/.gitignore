@@ -17,3 +17,4 @@ org.eclipse.jdt.groovy.core.prefs
 
 # Virtual Studio
 .vscode
+dependency-reduced-pom.xml
