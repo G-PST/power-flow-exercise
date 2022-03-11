@@ -39,13 +39,13 @@ public final class SecurityAnalysisBenchmark {
 
         private final String networkId;
 
-        private final LoadFlowParametersType loadFlowParametersType;
+        private final ASLoadFlowParametersType loadFlowParametersType;
 
         private final int contingencyCount;
 
         private final long milliSeconds;
 
-        BenchmarkResult(String networkId, LoadFlowParametersType loadFlowParametersType, int contingencyCount, long milliSeconds) {
+        BenchmarkResult(String networkId, ASLoadFlowParametersType loadFlowParametersType, int contingencyCount, long milliSeconds) {
             this.networkId = networkId;
             this.loadFlowParametersType = loadFlowParametersType;
             this.contingencyCount = contingencyCount;
@@ -56,7 +56,7 @@ public final class SecurityAnalysisBenchmark {
             return networkId;
         }
 
-        LoadFlowParametersType getLoadFlowParametersType() {
+        ASLoadFlowParametersType getLoadFlowParametersType() {
             return loadFlowParametersType;
         }
 
@@ -69,7 +69,7 @@ public final class SecurityAnalysisBenchmark {
         }
     }
 
-    private static SecurityAnalysisResult run(String provider, Network network, LoadFlowParametersType loadFlowParametersType,
+    private static SecurityAnalysisResult run(String provider, Network network, ASLoadFlowParametersType loadFlowParametersType,
                                               int contingencyLimit, List<BenchmarkResult> benchmarkResults) {
         List<Contingency> contingencies = network.getLineStream()
                 .limit(contingencyLimit)
@@ -99,7 +99,7 @@ public final class SecurityAnalysisBenchmark {
         // Network case1888rte = MatpowerUtil.importMat("case1888rte");
         // Network case1888rte = MatpowerUtil.importMat("case1888rte");
         Network case9241pegase = MatpowerUtil.importMat("case9241pegase");
-        for (LoadFlowParametersType loadFlowParametersType : LoadFlowParametersType.values()) {
+        for (ASLoadFlowParametersType loadFlowParametersType : ASLoadFlowParametersType.values()) {
             // run("OpenSecurityAnalysis", case1888rte, loadFlowParametersType, 1000, results);
             // run("OpenSecurityAnalysis", case6515rte, loadFlowParametersType, 1000, results);
             run("OpenSecurityAnalysis", case9241pegase, loadFlowParametersType, 1000, results);

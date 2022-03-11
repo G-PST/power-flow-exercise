@@ -42,25 +42,33 @@ In the Jupyter notebook the results are also compared with those of MATPOWER. Th
 MATPOWER, whild STANDARD and None are very similar.
 
 The performances result based on 20 runs are:
-| process                               | results
-| ---                                   | ---
-| loading                               | 1.32 s ± 317 
-| power-flow ```BASIC_LF_PARAMTERS```   | 2.26 s ± 337 ms
-| power-flow ```STANDARD_LF_PARAMTERS```| 4.05 s ± 760 ms
-| power-flow ```Default```              | 2.98 s ± 506 ms
+| process                                       | results
+| ---                                           | ---
+| loading                                       | 1.32 s ± 317 
+| power-flow ```ULTRABASIC_LF_PARAMTERS```      | 2.26 s ± 337 ms
+| power-flow ```BASIC_LF_PARAMTERS```           | 2.71 s ± 337 ms
+| power-flow ```STANDARD_LF_PARAMTERS```        | 4.05 s ± 760 ms
+| power-flow ```Default```                      | 2.98 s ± 506 ms
+
+### Performances test is security analysis on case9241pegase
+
 
 # Java version
 The same benchmark was done based on a fork of **powsybl-benchmark** in **java**: ['../example-powsybl']('../example-powsybl/')
 
 ## Simple Load flow performances
 The performances result based on 20 runs are:
-| Load Flow paramters           | results
-| ---                           | --- 
-| ```BASIC_LF_PARAMTERS```      | 1.456 s stdev 304 ms
-| ```STANDARD_LF_PARAMTERS```   | 2.474 s stdev 637 ms
+| lf paramters                      | results
+| ---                               | --- 
+| **```ULTRABASIC_LF_PARAMTERS```** | 0.947 s stdev 279 ms
+| **```BASIC_LF_PARAMTERS```**      | 1.456 s stdev 304 ms
+| **```STANDARD_LF_PARAMTERS```**   | 2.474 s stdev 637 ms
 
-## Security analysis performances
+## Simple Load flow performances
+Performances result for 1000 contingencies secuirity analysis:
 | Load Flow paramters           | results
 | ---                           | --- 
-|```BASIC_LF_PARAMTERS```       | 6 ms / contingency
-|```STANDARD_LF_PARAMTERS```    | 2 ms / contingency
+| ```BASIC_LF_PARAMTERS```      | 264.824 s ie **264 ms / contingency**
+| ```STANDARD_LF_PARAMTERS```   | 427.837 s ie **427 ms / contingency**
+
+
