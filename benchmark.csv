@@ -1,5 +1,5 @@
 package, step, case, time (seconds)
-PyPowsybl, load, RTS-GMLC,  0.00908
+PyPowsybl, load, RTS-GMLC, 0.00908
 PyPowsybl, solve, RTS-GMLC, 0.00297
 PyPowsybl, output, RTS-GMLC, 0
 PyPowsybl, load, PEGASE-9241, 0.790
