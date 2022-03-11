@@ -9,7 +9,7 @@ Powsybl, load, RTS-GMLC, 0
 Powsybl, solve, RTS-GMLC, 0
 Powsybl, output, RTS-GMLC, 0
 Powsybl, load, PEGASE-9241, 0
-Powsybl, solve, PEGASE-9241, 0
+Powsybl, solve, PEGASE-9241, 0.424144
 Powsybl, output, PEGASE-9241, 0
 Pandapower, load, RTS-GMLC, 1.8267596393823624
 Pandapower, solve, RTS-GMLC, 0.013330694898962974
