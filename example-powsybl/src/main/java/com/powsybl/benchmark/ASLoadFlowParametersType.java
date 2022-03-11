@@ -11,23 +11,16 @@ import com.powsybl.loadflow.LoadFlowParameters;
 /**
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
  */
-public enum LoadFlowParametersType implements LoadFlowParametersTypeInterface {
-    ULTRABASIC(new LoadFlowParameters()
+public enum ASLoadFlowParametersType implements LoadFlowParametersTypeInterface {
+    BASIC(new LoadFlowParameters()
             .setVoltageInitMode(LoadFlowParameters.VoltageInitMode.PREVIOUS_VALUES)
             .setDistributedSlack(false)
             .setNoGeneratorReactiveLimits(true)
             .setPhaseShifterRegulationOn(false)
             .setTransformerVoltageControlOn(false)
             .setConnectedComponentMode(LoadFlowParameters.ConnectedComponentMode.MAIN)),
-    BASIC(new LoadFlowParameters()
-            .setVoltageInitMode(LoadFlowParameters.VoltageInitMode.UNIFORM_VALUES)
-            .setDistributedSlack(false)
-            .setNoGeneratorReactiveLimits(true)
-            .setPhaseShifterRegulationOn(false)
-            .setTransformerVoltageControlOn(false)
-            .setConnectedComponentMode(LoadFlowParameters.ConnectedComponentMode.MAIN)),
     STANDARD(new LoadFlowParameters()
-            .setVoltageInitMode(LoadFlowParameters.VoltageInitMode.UNIFORM_VALUES)
+            .setVoltageInitMode(LoadFlowParameters.VoltageInitMode.PREVIOUS_VALUES)
             .setDistributedSlack(true)
             .setNoGeneratorReactiveLimits(false)
             .setPhaseShifterRegulationOn(false)
@@ -36,7 +29,7 @@ public enum LoadFlowParametersType implements LoadFlowParametersTypeInterface {
 
     private final LoadFlowParameters parameters;
 
-    LoadFlowParametersType(LoadFlowParameters parameters) {
+    ASLoadFlowParametersType(LoadFlowParameters parameters) {
         this.parameters = parameters;
     }
 
