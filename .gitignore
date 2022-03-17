@@ -1,4 +1,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
-PyPSA
+
+example-pypsa/PyPSA
+
+.ipynb_checkpoints/*

@@ -272,6 +272,8 @@ plotting:
     "ror" : "#4adbc8"
     "run of river" : "#4adbc8"
     'solar' : "#f9d002"
+    'solar-utility' : "#f9d002"
+    'solar-rooftop' : "#a69d23"
     'solar PV' : "#f9d002"
     'solar thermal' : '#ffef60'
     'biomass' : '#0c6013'
