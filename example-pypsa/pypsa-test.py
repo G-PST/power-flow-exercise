@@ -90,11 +90,11 @@ net=load_rts_grid()
 
 d = {
     "scenario": [
-    "RTS_GMLC_base", # no expansion, opf
+    "RTS_GMLC_base", # no expansion but opf
     "RTS_GMLC_base+line_expansion",  # line expansion and opf
-    "RTS_GMLS_base+gen_expansion",  # generation expansion, gen constraints, and opf only
-    "RTS_GMLS_base+gen_and_line_expansion",  # generation expansion, gen constraints, and opf only
-    "RTS_GMLS_1p5xload+0emission+gen_and_line_expansion",  # generation expansion, gen constraints, and opf only
+    "RTS_GMLS_base+gen_expansion",  # generation expansion and constraints, and opf
+    "RTS_GMLS_base+gen_and_line_expansion",  # generation expansion and constraints, line expansion and opf
+    "RTS_GMLS_1p5xload+0emission+gen_and_line_expansion",  # generation expansion and constraints, line expansion, load growth, "net 0" CO2 constraint and opf
     ],
     "co2_budget": [np.inf, np.inf, np.inf, np.inf, 0],  # sets the total CO2 budget tCO2/kWh in the energy system, i.e. np.inf = unlimited, 0 = net-zero
     "gen_expansion": [False, False, True, True, True],
