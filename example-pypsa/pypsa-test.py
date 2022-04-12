@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# # Imports and helper functions
+# # Requirements
 
 # To import packages and modules to Jupyter notebook, you need to setup a conda environment. Here we call it `gpst`.
 # ```
@@ -13,15 +13,15 @@
 # ```
 # pip install git+git://github.com/e2nIEE/pandapower@develop
 # ```
-# To  add the kernel for the jupyter notebook
+# Finally you need an updated PyPSA version to run the script successfully.
+# Install this pypsa PR version locally: `git clone https://github.com/pz-max/PyPSA.git` (will give you a PyPSA folder)
+# Place it at this location: ~/power-flow-exercise/example_pypsa/<PyPSA>
+# ```
+# # Optional. To add the kernel for the jupyter notebook
 # ```
 # pip install ipykernel
 # ipython kernel install --user --name=gpst
 # ```
-# 
-# Open the jupyter lab notebook by typing `jupyter lab` in the terminal.
-# 
-
 
 
 # In[2]:
